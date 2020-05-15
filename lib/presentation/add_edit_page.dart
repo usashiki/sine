@@ -62,7 +62,7 @@ class _AddEditPageState extends State<AddEditPage> {
           'current': '${widget?.tracker?.current ?? 0}',
           'offset': '${widget?.tracker?.offset ?? 0}',
           'period': withPeriod,
-          'days': widget?.tracker?.period?.days ?? 1,
+          'days': widget?.tracker?.period?.days ?? 7,
           'start': widget?.tracker?.period?.start ?? DateTime.now(),
         },
         child: ListView(

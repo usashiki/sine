@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sine/models/period.dart';
+import 'package:sine/utils/null_last_compare.dart';
 import 'package:uuid/uuid.dart';
 
 part 'tracker.g.dart';
@@ -31,8 +32,34 @@ class Tracker {
     this.period,
   }) : id = uuid ?? Uuid().v4();
 
+  /// The max episode count.
   int get max => offset + (period?.elapsed ?? 0);
+
+  /// The remaining number of episodes (i.e. max - current).
+  int get remaining => max - current;
+
+  /// Whether [remaining] is greater than 0.
+  bool get hasRemaining => remaining > 0;
+
+  /// Whether this Tracker has a [period] (and therefore auto-increments).
+  bool get hasPeriod => period != null;
+
+  /// The next time this tracker will auto-increment, returning null if [period]
+  /// is null.
   DateTime get next => period?.next;
+
+  /// The last time this tracker auto-incremented, returning null if [period] is
+  /// null.
+  DateTime get previous => period?.previous;
+
+  /// Compares [next] to another Tracker's next in a null-safe way with nulls
+  /// last.
+  int compareNext(Tracker other) => next.compareNullsLast(other.next);
+
+  /// Compares [previous] to another Tracker's previous in a null-safe way with
+  /// nulls last.
+  int comparePrevious(Tracker other) =>
+      previous.compareNullsLast(other.previous);
 
   @override
   String toString() {

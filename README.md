@@ -29,10 +29,10 @@ The structure of `lib/` is as follows:
 - [x] integrate with [redux_persist](https://pub.dev/packages/redux_persist) for persistance
 - [x] organize code
 - [x] delete trackers
+- [x] sorting: latest ep -> upcoming ep
 - [ ] polish the ui
 - [ ] edit on view page
 - [ ] reordering trackers
-- [ ] sorting: latest ep -> upcoming ep -> no periods
 - [ ] add timezone selection
 - [ ] notes, links fields
 - [ ] categories

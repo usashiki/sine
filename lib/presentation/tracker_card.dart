@@ -11,8 +11,27 @@ class TrackerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        title: Text('${tracker.title}: ${tracker.current} / ${tracker.max}'),
-        subtitle: tracker.period != null ? Text('Next: ${tracker.next}') : null,
+        leading: Icon(Icons.radio),
+        title: Text(tracker.title),
+        subtitle: Text('${tracker.current} / ${tracker.max} episodes'),
+        trailing: tracker.remaining > 0
+            ? Container(
+                constraints: const BoxConstraints(maxHeight: 40, maxWidth: 40),
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Center(
+                  child: Text(
+                    '${tracker.remaining}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              )
+            : null,
         onTap: () => Navigator.push<PageRoute>(
           context,
           MaterialPageRoute(builder: (_) => TrackerInfo(tracker.id)),

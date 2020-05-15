@@ -25,6 +25,9 @@ class Period {
       ? start
       : start.add(Duration(days: _periods * days));
 
+  /// The previous time this period occurred.
+  DateTime get previous => next.subtract(Duration(days: days));
+
   /// The number of days since [start].
   int get _diff => DateTime.now().difference(start).inDays;
   int get _periods => ((_diff + 1) / days).ceil();

@@ -17,13 +17,24 @@ class ListPage extends StatelessWidget {
       max += t.max;
     }
 
+    // TODO: theres gotta be a cleaner way to do this
+    final withRemaining =
+        trackers.where((Tracker t) => t.hasRemaining).toList();
+    withRemaining.sort((one, two) => one.comparePrevious(two));
+
+    final withoutRemaining =
+        trackers.where((Tracker t) => !t.hasRemaining).toList();
+    withoutRemaining.sort((one, two) => one.compareNext(two));
+
+    withRemaining.addAll(withoutRemaining);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sine: $cur / $max (${cur - max})'),
+        title: Text('Sine: $cur / $max (${max - cur})'),
       ),
       body: ListView.builder(
-        itemCount: trackers.length,
-        itemBuilder: (_, final i) => TrackerCard(trackers[i]),
+        itemCount: withRemaining.length,
+        itemBuilder: (_, final i) => TrackerCard(withRemaining[i]),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.push<PageRoute>(
