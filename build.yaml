@@ -1,0 +1,13 @@
+targets:
+  $default:
+    builders:
+      json_serializable:
+        options:
+          explicit_to_json: true
+      # https://github.com/dart-lang/source_gen#configuring-combining_builder-ignore_for_file
+      source_gen|combining_builder:
+        options:
+          ignore_for_file:
+          - prefer_final_locals
+          - type_annotate_public_apis
+          - implicit_dynamic_parameter

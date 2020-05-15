@@ -1,0 +1,11 @@
+include: package:lint/analysis_options.yaml
+
+linter:
+  rules:
+    # redux likes to pass in constructors as functions, which can't be done with proper factory methods
+    prefer_constructors_over_static_methods: false
+
+analyzer:
+  strong-mode:
+    implicit-casts: false
+    implicit-dynamic: false
