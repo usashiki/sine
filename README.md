@@ -30,12 +30,13 @@ The structure of `lib/` is as follows:
 - [x] organize code
 - [x] delete trackers
 - [x] sorting: latest ep -> upcoming ep
-- [ ] polish the ui
-- [ ] edit on view page
-- [ ] reordering trackers
-- [ ] add timezone selection
 - [ ] notes, links fields
+- [ ] polish list ui: cards, enable +1 on long press
+- [ ] polish details ui: show everything, allow +/- cur/max
+- [ ] polish edit ui
+- [ ] add timezone selection
 - [ ] categories
 - [ ] dark theme
-- [ ] setting page: theme selection, dark theme, etc
 - [ ] local notifications? https://pub.dev/packages/flutter_local_notifications
+- [ ] setting page: theme selection, dark theme, etc
+- [ ] reordering trackers
