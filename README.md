@@ -30,7 +30,7 @@ The structure of `lib/` is as follows:
 - [x] organize code
 - [x] delete trackers
 - [x] sorting: latest ep -> upcoming ep
-- [ ] notes, links fields
+- [x] notes, links fields
 - [ ] polish list ui: cards, enable +1 on long press
 - [ ] polish details ui: show everything, allow +/- cur/max
 - [ ] polish edit ui

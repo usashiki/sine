@@ -24,12 +24,20 @@ class Tracker {
   /// If not null, how often this tracker will auto-increment.
   final Period period;
 
+  /// Links (URLs) associated with this tracker.
+  final List<String> links;
+
+  /// A miscellaneous text field.
+  final String notes;
+
   Tracker({
     String uuid,
     @required this.title,
-    this.current = 0,
-    this.offset = 0,
+    @required this.current,
+    @required this.offset,
     this.period,
+    this.links = const [],
+    this.notes = '',
   }) : id = uuid ?? Uuid().v4();
 
   /// The max episode count.

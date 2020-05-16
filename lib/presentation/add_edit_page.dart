@@ -23,18 +23,35 @@ class AddEditPage extends StatefulWidget {
 
 class _AddEditPageState extends State<AddEditPage> {
   String Function(dynamic) integerValidator = FormBuilderValidators.pattern(
-    integerRegex,
+    r'^\-?\d+$',
     errorText: 'Value must be whole integer.',
   );
-  static const String integerRegex = r'^\-?\d+$';
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   bool withPeriod;
+  List<String> links;
 
   @override
   void initState() {
     withPeriod = widget?.tracker?.period != null;
+    links = widget.tracker.links ?? [];
     super.initState();
   }
+
+  // Widget linkField(int i) {
+  //   FormBuilderTextField(
+  //     attribute: '$i',
+  //     initialValue: links[i],
+  //     decoration: InputDecoration(
+  //       labelText: 'Link ${i + 1}',
+  //       border: const OutlineInputBorder(),
+  //     ),
+  //     validators: [
+  //       FormBuilderValidators.required(),
+  //       FormBuilderValidators.url(),
+  //     ],
+  //     maxLines: 1,
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +81,7 @@ class _AddEditPageState extends State<AddEditPage> {
           'period': withPeriod,
           'days': widget?.tracker?.period?.days ?? 7,
           'start': widget?.tracker?.period?.start ?? DateTime.now(),
+          'notes': widget.tracker.notes,
         },
         child: ListView(
           children: <Widget>[
@@ -102,6 +120,7 @@ class _AddEditPageState extends State<AddEditPage> {
                 integerValidator,
               ],
             ),
+            const Divider(),
             FormBuilderCheckbox(
               attribute: 'period',
               label: const Text('Period?'),
@@ -126,24 +145,67 @@ class _AddEditPageState extends State<AddEditPage> {
               ),
               readOnly: !withPeriod,
             ),
+            const Divider(),
+            RaisedButton(
+              onPressed: () => setState(() => links.add('')),
+              child: const Text('Add link'),
+            ),
+            for (int i = 0; i < links.length; i++)
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: FormBuilderTextField(
+                      attribute: '$i',
+                      initialValue: links[i],
+                      decoration: InputDecoration(
+                        labelText: 'Link ${i + 1}',
+                        border: const OutlineInputBorder(),
+                      ),
+                      validators: [
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.url(),
+                      ],
+                      maxLines: 1,
+                    ),
+                  ),
+                  IntrinsicWidth(
+                    child: IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () => setState(() => links.removeAt(i)),
+                    ),
+                  ),
+                ],
+              ),
+            FormBuilderTextField(
+              attribute: 'notes',
+              decoration: const InputDecoration(
+                labelText: 'Notes',
+                border: OutlineInputBorder(),
+              ),
+              minLines: 3,
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (_fbKey.currentState.saveAndValidate()) {
+            final map = _fbKey.currentState.value;
             final newTracker = Tracker(
               uuid: widget?.tracker?.id,
-              title: _fbKey.currentState.value['title'] as String,
-              current:
-                  int.parse(_fbKey.currentState.value['current'] as String),
-              offset: int.parse(_fbKey.currentState.value['offset'] as String),
+              title: map['title'] as String,
+              current: int.parse(map['current'] as String),
+              offset: int.parse(map['offset'] as String),
               period: withPeriod
                   ? Period(
-                      days: _fbKey.currentState.value['days'] as int,
-                      start: _fbKey.currentState.value['start'] as DateTime,
+                      days: map['days'] as int,
+                      start: map['start'] as DateTime,
                     )
                   : null,
+              links: [
+                for (int i = 0; i < links.length; i++) map['$i'] as String
+              ],
+              notes: map['notes'] as String,
             );
             widget.onSaveCallback(newTracker);
             Navigator.pop(context);

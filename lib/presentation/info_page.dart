@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sine/containers/tracker_edit.dart';
 import 'package:sine/models/tracker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class InfoPage extends StatelessWidget {
   final Tracker tracker;
@@ -9,6 +10,19 @@ class InfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final links = <Widget>[];
+    if (tracker.links == null || tracker.links.isEmpty) {
+      links.add(const ListTile(title: Text('Links'), subtitle: Text('N/A')));
+    } else {
+      links.addAll([
+        for (int i = 0; i < tracker.links.length; i++)
+          ListTile(
+            title: Text('Link ${i + 1}'),
+            subtitle: Text(tracker.links[i]),
+            onTap: () => launch(tracker.links[i]),
+          )
+      ]);
+    }
     return Scaffold(
       appBar: AppBar(title: Text(tracker.title)),
       body: ListView(
@@ -24,6 +38,13 @@ class InfoPage extends StatelessWidget {
           ListTile(
             title: Text('Period: ${tracker.period ?? 'N/A'}'),
             subtitle: Text('Next: ${tracker.next ?? 'N/A'}'),
+          ),
+          for (Widget w in links) w,
+          ListTile(
+            title: const Text('Notes'),
+            subtitle: Text(tracker.notes == null || tracker.notes.isEmpty
+                ? 'N/A'
+                : tracker.notes),
           ),
         ],
       ),
