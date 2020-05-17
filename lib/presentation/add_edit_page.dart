@@ -46,6 +46,7 @@ class _AddEditPageState extends State<AddEditPage> {
             ? <Widget>[
                 IconButton(
                   icon: Icon(Icons.delete),
+                  tooltip: 'Delete Tracker',
                   onPressed: () {
                     widget.deleteCallback(widget.tracker.id);
                     // TODO: this is a hack to return to list screen

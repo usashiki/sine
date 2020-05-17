@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sine/containers/tracker_edit.dart';
 import 'package:sine/models/tracker.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:supercharged/supercharged.dart';
 
 class InfoPage extends StatelessWidget {
   final Tracker tracker;
@@ -14,14 +15,13 @@ class InfoPage extends StatelessWidget {
     if (tracker.links == null || tracker.links.isEmpty) {
       links.add(const ListTile(title: Text('Links'), subtitle: Text('N/A')));
     } else {
-      links.addAll([
-        for (int i = 0; i < tracker.links.length; i++)
-          ListTile(
-            title: Text('Link ${i + 1}'),
-            subtitle: Text(tracker.links[i]),
-            onTap: () => launch(tracker.links[i]),
-          )
-      ]);
+      tracker.links.forEachIndexed(
+        (i, l) => links.add(ListTile(
+          title: Text('Link ${i + 1}'),
+          subtitle: Text(l),
+          onTap: () => launch(l),
+        )),
+      );
     }
     return Scaffold(
       appBar: AppBar(title: Text(tracker.title)),

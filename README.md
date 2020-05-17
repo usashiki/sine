@@ -33,11 +33,11 @@ The structure of `lib/` is as follows:
 - [x] delete trackers
 - [x] sorting: latest ep -> upcoming ep
 - [x] notes, links fields
-- [ ] remove fabs
 - [ ] polish list ui: cards, enable +1 on long press
 - [ ] polish details ui: show everything, allow +/- cur/max
 - [ ] polish edit ui
 - [ ] dark theme
+- [ ] remove fabs?
 
 ### too lazy
 
@@ -49,4 +49,4 @@ The structure of `lib/` is as follows:
 - [ ] timezone selection
 - [ ] reordering trackers
 - [ ] setting page: theme selection, dark theme, etc
-- [ ] local notifications? https://pub.dev/packages/flutter_local_notifications
+- [ ] local notifications: https://pub.dev/packages/flutter_local_notifications
