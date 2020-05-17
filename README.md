@@ -19,7 +19,9 @@ The structure of `lib/` is as follows:
 - `presentation/` - the presentation components, eg widgets that render state data, typically provided by a container widget
 - `redux/` - the Redux constructs, eg actions and reducers
 
-## TODOs
+## Roadmap
+
+### v0
 
 - [x] complete EditPage ui: use Form/FormFields
 - [x] test out ui for major bugs: doesnt need to be perfect
@@ -34,9 +36,12 @@ The structure of `lib/` is as follows:
 - [ ] polish list ui: cards, enable +1 on long press
 - [ ] polish details ui: show everything, allow +/- cur/max
 - [ ] polish edit ui
-- [ ] add timezone selection
 - [ ] categories
 - [ ] dark theme
-- [ ] local notifications? https://pub.dev/packages/flutter_local_notifications
-- [ ] setting page: theme selection, dark theme, etc
+
+### Stretch
+
+- [ ] add timezone selection
 - [ ] reordering trackers
+- [ ] setting page: theme selection, dark theme, etc
+- [ ] local notifications? https://pub.dev/packages/flutter_local_notifications

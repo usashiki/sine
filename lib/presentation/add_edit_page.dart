@@ -32,26 +32,10 @@ class _AddEditPageState extends State<AddEditPage> {
 
   @override
   void initState() {
-    withPeriod = widget?.tracker?.period != null;
-    links = widget.tracker.links ?? [];
+    withPeriod = widget.tracker?.period != null;
+    links = widget.tracker?.links ?? [];
     super.initState();
   }
-
-  // Widget linkField(int i) {
-  //   FormBuilderTextField(
-  //     attribute: '$i',
-  //     initialValue: links[i],
-  //     decoration: InputDecoration(
-  //       labelText: 'Link ${i + 1}',
-  //       border: const OutlineInputBorder(),
-  //     ),
-  //     validators: [
-  //       FormBuilderValidators.required(),
-  //       FormBuilderValidators.url(),
-  //     ],
-  //     maxLines: 1,
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -72,119 +56,102 @@ class _AddEditPageState extends State<AddEditPage> {
               ]
             : <Widget>[],
       ),
-      body: FormBuilder(
-        key: _fbKey,
-        initialValue: <String, dynamic>{
-          'title': widget?.tracker?.title,
-          'current': '${widget?.tracker?.current ?? 0}',
-          'offset': '${widget?.tracker?.offset ?? 0}',
-          'period': withPeriod,
-          'days': widget?.tracker?.period?.days ?? 7,
-          'start': widget?.tracker?.period?.start ?? DateTime.now(),
-          'notes': widget.tracker.notes,
-        },
-        child: ListView(
-          children: <Widget>[
-            FormBuilderTextField(
-              attribute: 'title',
-              decoration: const InputDecoration(
-                labelText: 'Title',
-                border: OutlineInputBorder(),
+      body: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: FormBuilder(
+          key: _fbKey,
+          initialValue: <String, dynamic>{
+            'title': widget.tracker?.title,
+            'current': '${widget.tracker?.current ?? 0}',
+            'offset': '${widget.tracker?.offset ?? 0}',
+            'period': withPeriod,
+            'days': widget.tracker?.period?.days ?? 7,
+            'start': widget.tracker?.period?.start ?? DateTime.now(),
+            'notes': widget.tracker?.notes,
+          },
+          child: ListView(
+            children: <Widget>[
+              FormBuilderTextField(
+                attribute: 'title',
+                decoration: const InputDecoration(labelText: 'Title'),
+                validators: [FormBuilderValidators.required()],
               ),
-              validators: [FormBuilderValidators.required()],
-            ),
-            FormBuilderTextField(
-              attribute: 'current',
-              decoration: const InputDecoration(
-                labelText: 'Current',
-                border: OutlineInputBorder(),
-              ),
-              keyboardType: TextInputType.number,
-              validators: [
-                FormBuilderValidators.required(),
-                FormBuilderValidators.numeric(),
-                integerValidator,
-                FormBuilderValidators.min(0),
-              ],
-            ),
-            FormBuilderTextField(
-              attribute: 'offset',
-              decoration: const InputDecoration(
-                labelText: 'Offset',
-                border: OutlineInputBorder(),
-              ),
-              keyboardType: TextInputType.number,
-              validators: [
-                FormBuilderValidators.required(),
-                FormBuilderValidators.numeric(),
-                integerValidator,
-              ],
-            ),
-            const Divider(),
-            FormBuilderCheckbox(
-              attribute: 'period',
-              label: const Text('Period?'),
-              onChanged: (dynamic val) =>
-                  setState(() => withPeriod = val as bool),
-            ),
-            FormBuilderTouchSpin(
-              attribute: 'days',
-              decoration: const InputDecoration(
-                labelText: 'Period length (days)',
-                border: OutlineInputBorder(),
-              ),
-              readOnly: !withPeriod,
-              step: 1,
-              min: 1,
-            ),
-            FormBuilderDateTimePicker(
-              attribute: 'start',
-              decoration: const InputDecoration(
-                labelText: 'Start',
-                border: OutlineInputBorder(),
-              ),
-              readOnly: !withPeriod,
-            ),
-            const Divider(),
-            RaisedButton(
-              onPressed: () => setState(() => links.add('')),
-              child: const Text('Add link'),
-            ),
-            for (int i = 0; i < links.length; i++)
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: FormBuilderTextField(
-                      attribute: '$i',
-                      initialValue: links[i],
-                      decoration: InputDecoration(
-                        labelText: 'Link ${i + 1}',
-                        border: const OutlineInputBorder(),
-                      ),
-                      validators: [
-                        FormBuilderValidators.required(),
-                        FormBuilderValidators.url(),
-                      ],
-                      maxLines: 1,
-                    ),
-                  ),
-                  IntrinsicWidth(
-                    child: IconButton(
-                      icon: Icon(Icons.delete),
-                      onPressed: () => setState(() => links.removeAt(i)),
-                    ),
-                  ),
+              FormBuilderTextField(
+                attribute: 'current',
+                decoration: const InputDecoration(labelText: 'Current'),
+                keyboardType: TextInputType.number,
+                validators: [
+                  FormBuilderValidators.required(),
+                  FormBuilderValidators.numeric(),
+                  integerValidator,
+                  FormBuilderValidators.min(0),
                 ],
               ),
-            FormBuilderTextField(
-              attribute: 'notes',
-              decoration: const InputDecoration(
-                labelText: 'Notes',
-                border: OutlineInputBorder(),
+              FormBuilderTextField(
+                attribute: 'offset',
+                decoration: const InputDecoration(labelText: 'Offset'),
+                keyboardType: TextInputType.number,
+                validators: [
+                  FormBuilderValidators.required(),
+                  FormBuilderValidators.numeric(),
+                  integerValidator,
+                ],
               ),
-              minLines: 3,
-            ),
-          ],
+              const Divider(),
+              FormBuilderCheckbox(
+                attribute: 'period',
+                label: const Text('Period?'),
+                onChanged: (dynamic val) =>
+                    setState(() => withPeriod = val as bool),
+              ),
+              FormBuilderTouchSpin(
+                attribute: 'days',
+                decoration:
+                    const InputDecoration(labelText: 'Period length (days)'),
+                readOnly: !withPeriod,
+                step: 1,
+                min: 1,
+              ),
+              FormBuilderDateTimePicker(
+                attribute: 'start',
+                decoration: const InputDecoration(labelText: 'Start'),
+                readOnly: !withPeriod,
+              ),
+              const Divider(),
+              RaisedButton(
+                onPressed: () => setState(() => links.add('')),
+                child: const Text('Add link'),
+              ),
+              for (int i = 0; i < links.length; i++)
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: FormBuilderTextField(
+                        attribute: '$i',
+                        initialValue: links[i],
+                        decoration: InputDecoration(labelText: 'Link ${i + 1}'),
+                        validators: [
+                          FormBuilderValidators.required(),
+                          FormBuilderValidators.url(),
+                        ],
+                        maxLines: 1,
+                      ),
+                    ),
+                    IntrinsicWidth(
+                      child: IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () => setState(() => links.removeAt(i)),
+                      ),
+                    ),
+                  ],
+                ),
+              FormBuilderTextField(
+                attribute: 'notes',
+                decoration: const InputDecoration(labelText: 'Notes'),
+                minLines: 3,
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -192,7 +159,7 @@ class _AddEditPageState extends State<AddEditPage> {
           if (_fbKey.currentState.saveAndValidate()) {
             final map = _fbKey.currentState.value;
             final newTracker = Tracker(
-              uuid: widget?.tracker?.id,
+              uuid: widget.tracker?.id,
               title: map['title'] as String,
               current: int.parse(map['current'] as String),
               offset: int.parse(map['offset'] as String),
