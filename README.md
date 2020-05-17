@@ -33,15 +33,20 @@ The structure of `lib/` is as follows:
 - [x] delete trackers
 - [x] sorting: latest ep -> upcoming ep
 - [x] notes, links fields
+- [ ] remove fabs
 - [ ] polish list ui: cards, enable +1 on long press
 - [ ] polish details ui: show everything, allow +/- cur/max
 - [ ] polish edit ui
-- [ ] categories
 - [ ] dark theme
 
-### Stretch
+### too lazy
 
-- [ ] add timezone selection
+- [ ] categories? or just color + icon (or emoji?) on tracker
+  - [ ] color: https://pub.dev/packages/flutter_colorpicker
+  - [ ] icon: https://pub.dev/packages/flutter_iconpicker
+  - [ ] emoji: https://pub.dev/packages/emoji_picker
+- [ ] calendar view
+- [ ] timezone selection
 - [ ] reordering trackers
 - [ ] setting page: theme selection, dark theme, etc
 - [ ] local notifications? https://pub.dev/packages/flutter_local_notifications
