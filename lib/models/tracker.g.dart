@@ -13,6 +13,7 @@ Tracker _$TrackerFromJson(Map<String, dynamic> json) {
     title: json['title'] as String,
     current: json['current'] as int,
     offset: json['offset'] as int,
+    colorInt: json['colorInt'] as int,
     period: json['period'] == null
         ? null
         : Period.fromJson(json['period'] as Map<String, dynamic>),
@@ -25,6 +26,7 @@ Map<String, dynamic> _$TrackerToJson(Tracker instance) => <String, dynamic>{
       'title': instance.title,
       'current': instance.current,
       'offset': instance.offset,
+      'colorInt': instance.colorInt,
       'period': instance.period?.toJson(),
       'links': instance.links,
       'notes': instance.notes,

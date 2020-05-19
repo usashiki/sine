@@ -14,12 +14,22 @@ class ListPage extends StatelessWidget {
     final cur = trackers.sumBy((t) => t.current);
     final max = trackers.sumBy((t) => t.max);
 
+    Iterable<Tracker> sorted = [];
+
     final groups = trackers
         .groupBy<String, Tracker>((t) => t.hasRemaining ? 'with' : 'without');
-    final sorted = groups['with']
-        .sortedBy((one, two) => one.comparePrevious(two))
-        .followedBy(
-            groups['without'].sortedBy((one, two) => one.compareNext(two)));
+
+    final withs = groups['with'];
+    if (withs != null && withs.isNotEmpty) {
+      sorted = sorted
+          .followedBy(withs.sortedBy((one, two) => one.comparePrevious(two)));
+    }
+
+    final withouts = groups['without'];
+    if (withouts != null && withouts.isNotEmpty) {
+      sorted = sorted
+          .followedBy(withouts.sortedBy((one, two) => one.compareNext(two)));
+    }
 
     return Scaffold(
       appBar: AppBar(

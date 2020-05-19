@@ -1,3 +1,5 @@
+import 'dart:ui' show Color;
+
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sine/models/period.dart';
@@ -21,6 +23,9 @@ class Tracker {
   /// Offsets the maximum episode count as calcuated by [period].
   final int offset;
 
+  /// The color of the tracker.
+  final int colorInt;
+
   /// If not null, how often this tracker will auto-increment.
   final Period period;
 
@@ -35,6 +40,7 @@ class Tracker {
     @required this.title,
     @required this.current,
     @required this.offset,
+    @required this.colorInt,
     this.period,
     this.links = const [],
     this.notes = '',
@@ -48,6 +54,8 @@ class Tracker {
 
   /// Whether [remaining] is greater than 0.
   bool get hasRemaining => remaining > 0;
+
+  Color get color => Color(colorInt);
 
   /// Whether this Tracker has a [period] (and therefore auto-increments).
   bool get hasPeriod => period != null;

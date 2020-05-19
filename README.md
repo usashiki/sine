@@ -14,7 +14,7 @@ Sine uses [`flutter_redux`](https://pub.dev/packages/flutter_redux) for state ma
 
 The structure of `lib/` is as follows:
 
-- `containers/` - the container components, eg widgets that subscribe to state provided by Redux and typically wrap a presentation widget which presents state data
+- `containers/` - the container components, eg widgets that subscribe to state provided by Redux and typically wrap a presentation widget which presents state data (unrelated to [`Container`](https://api.flutter.dev/flutter/widgets/Container-class.html))
 - `models/` - the underlying data models
 - `presentation/` - the presentation components, eg widgets that render state data, typically provided by a container widget
 - `redux/` - the Redux constructs, eg actions and reducers
@@ -33,16 +33,18 @@ The structure of `lib/` is as follows:
 - [x] delete trackers
 - [x] sorting: latest ep -> upcoming ep
 - [x] notes, links fields
-- [ ] polish list ui: cards, enable +1 on long press
+- [x] polish list ui cards
+- [x] tracker color customization: https://pub.dev/packages/flutter_colorpicker
+- [ ] list cards: enable +1 on long press (create new action?)
 - [ ] polish details ui: show everything, allow +/- cur/max
 - [ ] polish edit ui
+- [ ] container and presentation widget naming convention
 - [ ] dark theme
 - [ ] remove fabs?
 
 ### too lazy
 
 - [ ] categories? or just color + icon (or emoji?) on tracker
-  - [ ] color: https://pub.dev/packages/flutter_colorpicker
   - [ ] icon: https://pub.dev/packages/flutter_iconpicker
   - [ ] emoji: https://pub.dev/packages/emoji_picker
 - [ ] calendar view
