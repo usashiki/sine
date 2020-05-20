@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sine/containers/tracker_add.dart';
 import 'package:sine/models/tracker.dart';
-import 'package:sine/presentation/tracker_card.dart';
+import 'package:sine/presentation/summary_card.dart';
 import 'package:supercharged/supercharged.dart';
 
 class ListPage extends StatelessWidget {
@@ -36,7 +36,7 @@ class ListPage extends StatelessWidget {
         title: Text('Sine: $cur / $max (${max - cur})'),
       ),
       body: ListView(
-        children: <Widget>[for (Tracker t in sorted) TrackerCard(t)],
+        children: <Widget>[for (Tracker t in sorted) SummaryCard(t)],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.push<PageRoute>(

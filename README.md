@@ -38,12 +38,14 @@ The structure of `lib/` is as follows:
 - [ ] list cards: enable +1 on long press (create new action?)
 - [ ] polish details ui: show everything, allow +/- cur/max
 - [ ] polish edit ui
+- [ ] custom page transition
 - [ ] container and presentation widget naming convention
 - [ ] dark theme
 - [ ] remove fabs?
 
 ### too lazy
 
+- [ ] try `async_redux`? https://pub.dev/packages/async_redux
 - [ ] categories? or just color + icon (or emoji?) on tracker
   - [ ] icon: https://pub.dev/packages/flutter_iconpicker
   - [ ] emoji: https://pub.dev/packages/emoji_picker

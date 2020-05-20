@@ -30,30 +30,10 @@ class InfoPage extends StatelessWidget {
             title: Text('Period: ${tracker.period ?? 'N/A'}'),
             subtitle: Text('Next: ${tracker.next ?? 'N/A'}'),
           ),
-          ListTile(title: Text('Color: ${tracker.color}')),
           for (int i = 0; i < tracker.links.length; i++)
-            ListTile(
-              title: Text('Link ${i + 1}'),
-              subtitle: Text(
-                tracker.links[i],
-                style: TextStyle(decoration: TextDecoration.underline),
-              ),
-              onTap: () => launch(tracker.links[i]),
-              onLongPress: () {
-                print('copying ${tracker.links[i]} to clipboard');
-                Clipboard.setData(ClipboardData(text: tracker.links[i]));
-                Scaffold.of(context).showSnackBar(const SnackBar(
-                  content: Text('Copied to clipboard.'),
-                  duration: Duration(seconds: 1),
-                ));
-              },
-            ),
-          ListTile(
-            title: const Text('Notes'),
-            subtitle: Text(tracker.notes == null || tracker.notes.isEmpty
-                ? 'N/A'
-                : tracker.notes),
-          ),
+            _LinkTile(i + 1, tracker.links[i]),
+          if (tracker.notes != null && tracker.notes.isNotEmpty)
+            _NotesTile(tracker.notes),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -65,6 +45,50 @@ class InfoPage extends StatelessWidget {
         tooltip: 'Edit Tracker',
         child: Icon(Icons.edit),
       ),
+    );
+  }
+}
+
+class _LinkTile extends StatelessWidget {
+  final int index;
+  final String link;
+
+  const _LinkTile(this.index, this.link, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text('Link $index'),
+      subtitle: Text(
+        link,
+        style: TextStyle(decoration: TextDecoration.underline),
+        softWrap: false,
+        maxLines: 1,
+        overflow: TextOverflow.fade,
+      ),
+      onTap: () => launch(link),
+      onLongPress: () {
+        print('copying $link to clipboard');
+        Clipboard.setData(ClipboardData(text: link));
+        Scaffold.of(context).showSnackBar(const SnackBar(
+          content: Text('Copied to clipboard.'),
+          duration: Duration(seconds: 1),
+        ));
+      },
+    );
+  }
+}
+
+class _NotesTile extends StatelessWidget {
+  final String notes;
+
+  const _NotesTile(this.notes, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: const Text('Notes'),
+      subtitle: Text(notes),
     );
   }
 }
