@@ -5,6 +5,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:sine/presentation/add_edit_page.dart';
 import 'package:sine/redux/actions.dart';
+import 'package:uuid/uuid.dart';
 
 class TrackerEdit extends StatelessWidget {
   final Tracker tracker;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sine/containers/tracker_edit.dart';
+import 'package:sine/models/period.dart';
 import 'package:sine/models/tracker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -26,12 +27,9 @@ class InfoPage extends StatelessWidget {
             subtitle: Text(
                 '${tracker.period?.elapsed ?? 0} elapsed + ${tracker.offset} offset'),
           ),
-          ListTile(
-            title: Text('Period: ${tracker.period ?? 'N/A'}'),
-            subtitle: Text('Next: ${tracker.next ?? 'N/A'}'),
-          ),
+          if (tracker.period != null) _PeriodTile(tracker.period),
           for (int i = 0; i < tracker.links.length; i++)
-            _LinkTile(i + 1, tracker.links[i]),
+            _LinkTile(tracker.links[i]),
           if (tracker.notes != null && tracker.notes.isNotEmpty)
             _NotesTile(tracker.notes),
         ],
@@ -49,17 +47,31 @@ class InfoPage extends StatelessWidget {
   }
 }
 
-class _LinkTile extends StatelessWidget {
-  final int index;
-  final String link;
+class _PeriodTile extends StatelessWidget {
+  final Period period;
 
-  const _LinkTile(this.index, this.link, {Key key}) : super(key: key);
+  const _PeriodTile(this.period, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text('Link $index'),
-      subtitle: Text(
+      leading: Icon(Icons.repeat),
+      title: Text('Every ${period.days} days starting on ${period.startStr}'),
+      subtitle: Text('Next: ${period.nextStr}'),
+    );
+  }
+}
+
+class _LinkTile extends StatelessWidget {
+  final String link;
+
+  const _LinkTile(this.link, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(Icons.link),
+      title: Text(
         link,
         style: TextStyle(decoration: TextDecoration.underline),
         softWrap: false,

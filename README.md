@@ -37,6 +37,12 @@ The structure of `lib/` is as follows:
 - [x] tracker color customization: https://pub.dev/packages/flutter_colorpicker
 - [ ] list cards: enable +1 on long press (create new action?)
 - [ ] polish details ui: show everything, allow +/- cur/max
+- [ ] add/edit ui links
+  - [ ] https://medium.com/flutter-community/flutter-how-to-validate-fields-dynamically-created-40cafca5c3cb
+  - [ ] https://stackoverflow.com/questions/57824417/dynamically-add-fields-in-a-flutter-form-widget
+  - [ ] adding links clears title/notes - seems to happen when keyboard pops up
+  - [ ] deleting links doesnt delete in correct order
+  - [ ] # links is persisted if close then reopen edit
 - [ ] polish edit ui
 - [ ] custom page transition
 - [ ] container and presentation widget naming convention

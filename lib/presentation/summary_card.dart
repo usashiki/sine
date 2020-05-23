@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:sine/containers/tracker_info.dart';
 import 'package:sine/models/tracker.dart';
 
 class SummaryCard extends StatelessWidget {
-  static final DateFormat _nextFormat = DateFormat('MMM d (EEE) HH:mm');
   final Tracker tracker;
 
   const SummaryCard(this.tracker, {Key key}) : super(key: key);
@@ -15,9 +13,8 @@ class SummaryCard extends StatelessWidget {
       barColor: tracker.color,
       title: tracker.title,
       subtitle1: '${tracker.current} / ${tracker.max} episodes',
-      subtitle2: tracker.next != null
-          ? 'Next: ${_nextFormat.format(tracker.next)}'
-          : null,
+      subtitle2:
+          tracker.next != null ? 'Next: ${tracker.period.nextStrShort}' : null,
       trailingCounter: tracker.remaining,
       onTap: () => Navigator.push<PageRoute>(
         context,

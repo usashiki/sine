@@ -148,7 +148,7 @@ class _AddEditPageState extends State<AddEditPage> {
                         decoration: InputDecoration(labelText: 'Link ${i + 1}'),
                         validators: [
                           FormBuilderValidators.required(),
-                          FormBuilderValidators.url(),
+                          // FormBuilderValidators.url(),
                         ],
                         maxLines: 1,
                       ),
@@ -176,6 +176,7 @@ class _AddEditPageState extends State<AddEditPage> {
         onPressed: () {
           if (_fbKey.currentState.saveAndValidate()) {
             final map = _fbKey.currentState.value;
+            print(map);
             final newTracker = Tracker(
               uuid: widget.tracker?.id,
               title: map['title'] as String,
