@@ -35,6 +35,7 @@ The structure of `lib/` is as follows:
 - [x] notes, links fields
 - [x] polish list ui cards
 - [x] tracker color customization: https://pub.dev/packages/flutter_colorpicker
+- [ ] remove links field for https://pub.dev/packages/flutter_linkify
 - [ ] list cards: enable +1 on long press (create new action?)
 - [ ] polish details ui: show everything, allow +/- cur/max
 - [ ] add/edit ui links
