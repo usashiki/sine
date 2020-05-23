@@ -26,3 +26,13 @@ class DeleteTrackerAction {
   @override
   String toString() => 'DeleteTrackerAction($id)';
 }
+
+class IncrementTrackerCurrentAction {
+  final String id;
+  final int increment;
+
+  const IncrementTrackerCurrentAction(this.id, this.increment);
+
+  @override
+  String toString() => 'IncrementTrackerCurrentAction($id, $increment)';
+}

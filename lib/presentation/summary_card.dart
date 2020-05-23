@@ -4,8 +4,13 @@ import 'package:sine/models/tracker.dart';
 
 class SummaryCard extends StatelessWidget {
   final Tracker tracker;
+  final VoidCallback onLongPress;
 
-  const SummaryCard(this.tracker, {Key key}) : super(key: key);
+  const SummaryCard({
+    this.tracker,
+    this.onLongPress,
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +25,7 @@ class SummaryCard extends StatelessWidget {
         context,
         MaterialPageRoute(builder: (_) => TrackerInfo(tracker.id)),
       ),
+      onLongPress: onLongPress,
     );
   }
 }
@@ -48,6 +54,7 @@ class _Card extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
+        onLongPress: onLongPress,
         child: IntrinsicHeight(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,

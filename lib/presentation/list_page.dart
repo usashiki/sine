@@ -6,8 +6,13 @@ import 'package:supercharged/supercharged.dart';
 
 class ListPage extends StatelessWidget {
   final List<Tracker> trackers;
+  final Function(String, int) incrementCallback;
 
-  const ListPage(this.trackers, {Key key}) : super(key: key);
+  const ListPage({
+    this.trackers,
+    this.incrementCallback,
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +41,13 @@ class ListPage extends StatelessWidget {
         title: Text('Sine: $cur / $max (${max - cur})'),
       ),
       body: ListView(
-        children: <Widget>[for (Tracker t in sorted) SummaryCard(t)],
+        children: <Widget>[
+          for (Tracker t in sorted)
+            SummaryCard(
+              tracker: t,
+              onLongPress: () => incrementCallback(t.id, 1),
+            ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.push<PageRoute>(

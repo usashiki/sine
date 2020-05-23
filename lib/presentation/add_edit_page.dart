@@ -111,26 +111,31 @@ class _AddEditPageState extends State<AddEditPage> {
               const Divider(),
               FormBuilderCheckbox(
                 attribute: 'period',
+                decoration: const InputDecoration(labelText: 'Period'),
                 initialValue: withPeriod,
-                label: const Text('Period?'),
+                label: const Text('Enable auto-increment'),
+                activeColor: color,
                 onChanged: (dynamic val) =>
                     setState(() => withPeriod = val as bool),
               ),
-              FormBuilderTouchSpin(
-                attribute: 'days',
-                decoration:
-                    const InputDecoration(labelText: 'Period length (days)'),
-                initialValue: widget.tracker?.period?.days ?? 7,
-                readOnly: !withPeriod,
-                step: 1,
-                min: 1,
-              ),
-              FormBuilderDateTimePicker(
-                attribute: 'start',
-                decoration: const InputDecoration(labelText: 'Start'),
-                initialValue: widget.tracker?.period?.start ?? DateTime.now(),
-                readOnly: !withPeriod,
-              ),
+              if (withPeriod)
+                FormBuilderTouchSpin(
+                  attribute: 'days',
+                  decoration:
+                      const InputDecoration(labelText: 'Period length (days)'),
+                  initialValue: widget.tracker?.period?.days ?? 7,
+                  iconActiveColor: color,
+                  readOnly: !withPeriod,
+                  step: 1,
+                  min: 1,
+                ),
+              if (withPeriod)
+                FormBuilderDateTimePicker(
+                  attribute: 'start',
+                  decoration: const InputDecoration(labelText: 'Period Start'),
+                  initialValue: widget.tracker?.period?.start ?? DateTime.now(),
+                  readOnly: !withPeriod,
+                ),
               FormBuilderTextField(
                 attribute: 'notes',
                 decoration: const InputDecoration(labelText: 'Notes'),
@@ -148,7 +153,7 @@ class _AddEditPageState extends State<AddEditPage> {
             final map = _fbKey.currentState.value;
             print(map);
             final newTracker = Tracker(
-              uuid: widget.tracker?.id,
+              id: widget.tracker?.id,
               title: map['title'] as String,
               current: int.parse(map['current'] as String),
               offset: int.parse(map['offset'] as String),

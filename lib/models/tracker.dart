@@ -33,14 +33,33 @@ class Tracker {
   final String notes;
 
   Tracker({
-    String uuid,
+    String id,
     @required this.title,
     @required this.current,
     @required this.offset,
     @required this.colorInt,
     this.period,
     this.notes = '',
-  }) : id = uuid ?? Uuid().v4();
+  }) : id = id ?? Uuid().v4();
+
+  Tracker copyWith({
+    String id,
+    String title,
+    int current,
+    int offset,
+    int colorInt,
+    Period period,
+    String notes,
+  }) =>
+      Tracker(
+        id: id ?? this.id,
+        title: title ?? this.title,
+        current: current ?? this.current,
+        offset: offset ?? this.offset,
+        colorInt: colorInt ?? this.colorInt,
+        period: period ?? this.period,
+        notes: notes ?? this.notes,
+      );
 
   /// The max episode count.
   int get max => offset + (period?.elapsed ?? 0);

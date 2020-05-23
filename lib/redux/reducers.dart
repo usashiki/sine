@@ -10,6 +10,8 @@ final _trackersReducer = combineReducers<List<Tracker>>([
   TypedReducer<List<Tracker>, AddTrackerAction>(_addTracker),
   TypedReducer<List<Tracker>, EditTrackerAction>(_editTracker),
   TypedReducer<List<Tracker>, DeleteTrackerAction>(_deleteTracker),
+  TypedReducer<List<Tracker>, IncrementTrackerCurrentAction>(
+      _incrementTrackerCurrent),
 ]);
 
 List<Tracker> _addTracker(List<Tracker> trackers, AddTrackerAction action) =>
@@ -24,3 +26,11 @@ List<Tracker> _editTracker(List<Tracker> trackers, EditTrackerAction action) =>
 List<Tracker> _deleteTracker(
         List<Tracker> trackers, DeleteTrackerAction action) =>
     List.from(trackers)..removeWhere((tracker) => tracker.id == action.id);
+
+List<Tracker> _incrementTrackerCurrent(
+        List<Tracker> trackers, IncrementTrackerCurrentAction action) =>
+    trackers
+        .map((tracker) => tracker.id == action.id
+            ? tracker.copyWith(current: tracker.current + action.increment)
+            : tracker)
+        .toList();
