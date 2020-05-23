@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:sine/containers/tracker_edit.dart';
 import 'package:sine/models/period.dart';
 import 'package:sine/models/tracker.dart';
@@ -28,10 +28,8 @@ class InfoPage extends StatelessWidget {
                 '${tracker.period?.elapsed ?? 0} elapsed + ${tracker.offset} offset'),
           ),
           if (tracker.period != null) _PeriodTile(tracker.period),
-          for (int i = 0; i < tracker.links.length; i++)
-            _LinkTile(tracker.links[i]),
           if (tracker.notes != null && tracker.notes.isNotEmpty)
-            _NotesTile(tracker.notes),
+            _NotesTile(text: tracker.notes, linkColor: tracker.color),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -62,45 +60,24 @@ class _PeriodTile extends StatelessWidget {
   }
 }
 
-class _LinkTile extends StatelessWidget {
-  final String link;
-
-  const _LinkTile(this.link, {Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(Icons.link),
-      title: Text(
-        link,
-        style: TextStyle(decoration: TextDecoration.underline),
-        softWrap: false,
-        maxLines: 1,
-        overflow: TextOverflow.fade,
-      ),
-      onTap: () => launch(link),
-      onLongPress: () {
-        print('copying $link to clipboard');
-        Clipboard.setData(ClipboardData(text: link));
-        Scaffold.of(context).showSnackBar(const SnackBar(
-          content: Text('Copied to clipboard.'),
-          duration: Duration(seconds: 1),
-        ));
-      },
-    );
-  }
-}
-
 class _NotesTile extends StatelessWidget {
-  final String notes;
+  final String text;
+  final Color linkColor;
 
-  const _NotesTile(this.notes, {Key key}) : super(key: key);
+  const _NotesTile({this.text, this.linkColor, Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: const Text('Notes'),
-      subtitle: Text(notes),
+      leading: Icon(Icons.subject),
+      title: Linkify(
+        onOpen: (link) => launch(link.url),
+        linkStyle: TextStyle(
+          color: linkColor,
+          decoration: TextDecoration.underline,
+        ),
+        text: text,
+      ),
     );
   }
 }

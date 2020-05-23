@@ -29,9 +29,6 @@ class Tracker {
   /// If not null, how often this tracker will auto-increment.
   final Period period;
 
-  /// Links (URLs) associated with this tracker.
-  final List<String> links;
-
   /// A miscellaneous text field.
   final String notes;
 
@@ -42,7 +39,6 @@ class Tracker {
     @required this.offset,
     @required this.colorInt,
     this.period,
-    this.links = const [],
     this.notes = '',
   }) : id = uuid ?? Uuid().v4();
 

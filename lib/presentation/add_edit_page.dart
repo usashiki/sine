@@ -30,13 +30,11 @@ class _AddEditPageState extends State<AddEditPage> {
   );
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   bool withPeriod;
-  List<String> links;
   Color color;
 
   @override
   void initState() {
     withPeriod = widget.tracker?.period != null;
-    links = widget.tracker?.links ?? [];
     super.initState();
   }
 
@@ -133,34 +131,6 @@ class _AddEditPageState extends State<AddEditPage> {
                 initialValue: widget.tracker?.period?.start ?? DateTime.now(),
                 readOnly: !withPeriod,
               ),
-              const Divider(),
-              RaisedButton(
-                onPressed: () => setState(() => links.add('')),
-                child: const Text('Add link'),
-              ),
-              for (int i = 0; i < links.length; i++)
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: FormBuilderTextField(
-                        attribute: '$i',
-                        initialValue: links[i],
-                        decoration: InputDecoration(labelText: 'Link ${i + 1}'),
-                        validators: [
-                          FormBuilderValidators.required(),
-                          // FormBuilderValidators.url(),
-                        ],
-                        maxLines: 1,
-                      ),
-                    ),
-                    IntrinsicWidth(
-                      child: IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: () => setState(() => links.removeAt(i)),
-                      ),
-                    ),
-                  ],
-                ),
               FormBuilderTextField(
                 attribute: 'notes',
                 decoration: const InputDecoration(labelText: 'Notes'),
@@ -189,9 +159,6 @@ class _AddEditPageState extends State<AddEditPage> {
                       start: map['start'] as DateTime,
                     )
                   : null,
-              links: [
-                for (int i = 0; i < links.length; i++) map['$i'] as String
-              ],
               notes: map['notes'] as String,
             );
             widget.onSaveCallback(newTracker);

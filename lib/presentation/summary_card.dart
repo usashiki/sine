@@ -54,7 +54,7 @@ class _Card extends StatelessWidget {
             children: <Widget>[
               _ColorBar(barColor),
               _Body(title, subtitle1, subtitle2),
-              _Counter(trailingCounter),
+              if (trailingCounter > 0) _Counter(trailingCounter),
             ],
           ),
         ),
@@ -113,9 +113,6 @@ class _Counter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (n < 1) {
-      return Container();
-    }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Center(
@@ -128,7 +125,7 @@ class _Counter extends StatelessWidget {
           ),
           alignment: Alignment.center,
           child: Text(
-            '$n',
+            '${n > 99 ? '99+' : n}',
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,

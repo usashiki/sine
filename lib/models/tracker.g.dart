@@ -17,7 +17,6 @@ Tracker _$TrackerFromJson(Map<String, dynamic> json) {
     period: json['period'] == null
         ? null
         : Period.fromJson(json['period'] as Map<String, dynamic>),
-    links: (json['links'] as List)?.map((e) => e as String)?.toList(),
     notes: json['notes'] as String,
   );
 }
@@ -28,6 +27,5 @@ Map<String, dynamic> _$TrackerToJson(Tracker instance) => <String, dynamic>{
       'offset': instance.offset,
       'colorInt': instance.colorInt,
       'period': instance.period?.toJson(),
-      'links': instance.links,
       'notes': instance.notes,
     };
