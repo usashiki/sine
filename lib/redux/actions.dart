@@ -1,3 +1,4 @@
+import 'package:sine/models/app_settings.dart';
 import 'package:sine/models/tracker.dart';
 
 class AddTrackerAction {
@@ -27,12 +28,31 @@ class DeleteTrackerAction {
   String toString() => 'DeleteTrackerAction($id)';
 }
 
-class IncrementTrackerCurrentAction {
+class EditTrackerCurrentAction {
   final String id;
-  final int increment;
+  final int newCurrent;
 
-  const IncrementTrackerCurrentAction(this.id, this.increment);
+  const EditTrackerCurrentAction(this.id, this.newCurrent);
 
   @override
-  String toString() => 'IncrementTrackerCurrentAction($id, $increment)';
+  String toString() => 'IncrementTrackerCurrentAction($id, $newCurrent)';
+}
+
+class EditTrackerOffsetAction {
+  final String id;
+  final int newOffset;
+
+  const EditTrackerOffsetAction(this.id, this.newOffset);
+
+  @override
+  String toString() => 'IncrementTrackerOffsetAction($id, $newOffset)';
+}
+
+class EditSettingsAction {
+  final AppSettings newSettings;
+
+  const EditSettingsAction(this.newSettings);
+
+  @override
+  String toString() => 'EditSettingsAction{$newSettings}';
 }

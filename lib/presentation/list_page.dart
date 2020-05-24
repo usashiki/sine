@@ -6,11 +6,11 @@ import 'package:supercharged/supercharged.dart';
 
 class ListPage extends StatelessWidget {
   final List<Tracker> trackers;
-  final Function(String, int) incrementCallback;
+  final Function(String, int) editCurrentCallback;
 
   const ListPage({
     this.trackers,
-    this.incrementCallback,
+    this.editCurrentCallback,
     Key key,
   }) : super(key: key);
 
@@ -45,7 +45,7 @@ class ListPage extends StatelessWidget {
           for (Tracker t in sorted)
             SummaryCard(
               tracker: t,
-              onLongPress: () => incrementCallback(t.id, 1),
+              onLongPress: () => editCurrentCallback(t.id, t.current + 1),
             ),
         ],
       ),

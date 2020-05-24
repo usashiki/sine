@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:sine/models/period.dart';
 import 'package:sine/models/tracker.dart';
 
@@ -24,7 +25,8 @@ class AddEditPage extends StatefulWidget {
 }
 
 class _AddEditPageState extends State<AddEditPage> {
-  String Function(dynamic) integerValidator = FormBuilderValidators.pattern(
+  final String Function(dynamic) integerValidator =
+      FormBuilderValidators.pattern(
     r'^\-?\d+$',
     errorText: 'Value must be whole integer.',
   );
@@ -51,99 +53,132 @@ class _AddEditPageState extends State<AddEditPage> {
       appBar: AppBar(
         title: Text('${widget.isEdit ? 'Edit' : 'Add'} Tracker'),
         backgroundColor: color,
-        actions: widget.isEdit
-            ? <Widget>[
-                IconButton(
-                  icon: Icon(Icons.delete),
-                  tooltip: 'Delete Tracker',
-                  onPressed: () {
-                    widget.deleteCallback(widget.tracker.id);
-                    // TODO: this is a hack to return to list screen
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                  },
-                ),
-              ]
-            : <Widget>[],
+        actions: <Widget>[
+          if (widget.isEdit)
+            IconButton(
+              icon: Icon(Icons.delete),
+              tooltip: 'Delete Tracker',
+              onPressed: () {
+                widget.deleteCallback(widget.tracker.id);
+                // TODO: this is a hack to return to list screen
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+            ),
+        ],
       ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: FormBuilder(
-          key: _fbKey,
-          child: ListView(
-            children: <Widget>[
-              FormBuilderTextField(
+      body: FormBuilder(
+        key: _fbKey,
+        child: ListView(
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.title),
+              title: FormBuilderTextField(
                 attribute: 'title',
                 decoration: const InputDecoration(labelText: 'Title'),
                 initialValue: widget.tracker?.title,
                 validators: [FormBuilderValidators.required()],
               ),
-              FormBuilderTextField(
+            ),
+            ListTile(
+              leading: Icon(MdiIcons.abTesting),
+              title: FormBuilderTextField(
                 attribute: 'current',
-                decoration: const InputDecoration(labelText: 'Current'),
-                initialValue: '${widget.tracker?.current ?? 0}',
+                decoration: const InputDecoration(
+                  labelText: 'Current',
+                  suffixText: 'episodes',
+                ),
+                initialValue: '${widget.tracker?.current ?? ''}',
                 keyboardType: TextInputType.number,
                 validators: [
-                  FormBuilderValidators.required(),
                   FormBuilderValidators.numeric(),
                   integerValidator,
                   FormBuilderValidators.min(0),
                 ],
               ),
-              FormBuilderTextField(
+            ),
+            ListTile(
+              title: FormBuilderTextField(
                 attribute: 'offset',
-                decoration: const InputDecoration(labelText: 'Offset'),
-                initialValue: '${widget.tracker?.offset ?? 0}',
+                decoration: const InputDecoration(
+                  labelText: 'Offset',
+                  suffixText: 'episodes',
+                ),
+                initialValue: '${widget.tracker?.offset ?? ''}',
                 keyboardType: TextInputType.number,
                 validators: [
-                  FormBuilderValidators.required(),
                   FormBuilderValidators.numeric(),
                   integerValidator,
                 ],
               ),
-              FormBuilderColorPicker(
+            ),
+            ListTile(
+              leading: Icon(MdiIcons.reload),
+              title: Column(
+                children: <Widget>[
+                  FormBuilderSwitch(
+                    attribute: 'period',
+                    decoration: const InputDecoration(
+                      labelText: 'Period',
+                      border: InputBorder.none,
+                    ),
+                    initialValue: withPeriod,
+                    label: const Text('Enable auto-increment'),
+                    activeColor: color,
+                    onChanged: (dynamic val) =>
+                        setState(() => withPeriod = val as bool),
+                  ),
+                  if (withPeriod)
+                    FormBuilderTextField(
+                      attribute: 'days',
+                      decoration: const InputDecoration(
+                        labelText: 'Period length',
+                        suffixText: 'days',
+                      ),
+                      initialValue: '${widget.tracker?.period?.days ?? 7}',
+                      keyboardType: TextInputType.number,
+                      readOnly: !withPeriod,
+                      validators: [
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.numeric(),
+                        integerValidator,
+                        FormBuilderValidators.min(0),
+                      ],
+                    ),
+                  if (withPeriod)
+                    FormBuilderDateTimePicker(
+                      attribute: 'start',
+                      decoration:
+                          const InputDecoration(labelText: 'Period Start'),
+                      initialValue:
+                          widget.tracker?.period?.start ?? DateTime.now(),
+                      readOnly: !withPeriod,
+                    ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.palette),
+              title: FormBuilderColorPicker(
                 attribute: 'color',
-                decoration: const InputDecoration(labelText: 'Color'),
+                decoration: const InputDecoration(
+                  labelText: 'Color',
+                  border: InputBorder.none,
+                ),
                 initialValue: color,
                 onChanged: (dynamic c) => setState(() => color = c as Color),
                 colorPickerType: ColorPickerType.BlockPicker,
               ),
-              const Divider(),
-              FormBuilderCheckbox(
-                attribute: 'period',
-                decoration: const InputDecoration(labelText: 'Period'),
-                initialValue: withPeriod,
-                label: const Text('Enable auto-increment'),
-                activeColor: color,
-                onChanged: (dynamic val) =>
-                    setState(() => withPeriod = val as bool),
-              ),
-              if (withPeriod)
-                FormBuilderTouchSpin(
-                  attribute: 'days',
-                  decoration:
-                      const InputDecoration(labelText: 'Period length (days)'),
-                  initialValue: widget.tracker?.period?.days ?? 7,
-                  iconActiveColor: color,
-                  readOnly: !withPeriod,
-                  step: 1,
-                  min: 1,
-                ),
-              if (withPeriod)
-                FormBuilderDateTimePicker(
-                  attribute: 'start',
-                  decoration: const InputDecoration(labelText: 'Period Start'),
-                  initialValue: widget.tracker?.period?.start ?? DateTime.now(),
-                  readOnly: !withPeriod,
-                ),
-              FormBuilderTextField(
+            ),
+            ListTile(
+              leading: Icon(MdiIcons.text),
+              title: FormBuilderTextField(
                 attribute: 'notes',
                 decoration: const InputDecoration(labelText: 'Notes'),
                 initialValue: widget.tracker?.notes,
-                minLines: 3,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -155,12 +190,12 @@ class _AddEditPageState extends State<AddEditPage> {
             final newTracker = Tracker(
               id: widget.tracker?.id,
               title: map['title'] as String,
-              current: int.parse(map['current'] as String),
-              offset: int.parse(map['offset'] as String),
+              current: _parseIntStr(map['current']),
+              offset: _parseIntStr(map['offset']),
               colorInt: (map['color'] as Color).value,
               period: withPeriod
                   ? Period(
-                      days: map['days'] as int,
+                      days: _parseIntStr(map['days']),
                       start: map['start'] as DateTime,
                     )
                   : null,
@@ -175,4 +210,12 @@ class _AddEditPageState extends State<AddEditPage> {
       ),
     );
   }
+}
+
+int _parseIntStr(dynamic d) {
+  final s = d as String;
+  if (s.isEmpty) {
+    return 0;
+  }
+  return int.tryParse(s) ?? 0;
 }

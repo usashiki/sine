@@ -37,21 +37,20 @@ The structure of `lib/` is as follows:
 - [x] tracker color customization: https://pub.dev/packages/flutter_colorpicker
 - [x] remove links field for https://pub.dev/packages/flutter_linkify
 - [x] list cards: enable +1 on long press (create new action?)
-- [ ] polish details ui: show everything, allow +/- cur/max
-- [ ] polish edit ui
+- [ ] polish details ui: add icons, allow +/- cur/max
+- [ ] polish edit ui: add icons
 - [ ] custom page transition
-- [ ] container and presentation widget naming convention
 - [ ] dark theme
-- [ ] remove fabs?
+- [ ] container and presentation widget naming convention
+- [ ] readme, comments
 
-### too lazy
+### later
 
+- [ ] replace fabs?
+- [ ] bug: color is not set on selected fields: set theme color upon entering tracker?
+- [ ] setting page: theme color selection, dark theme, etc
 - [ ] try `async_redux`? https://pub.dev/packages/async_redux
-- [ ] categories? or just color + icon (or emoji?) on tracker
-  - [ ] icon: https://pub.dev/packages/flutter_iconpicker
-  - [ ] emoji: https://pub.dev/packages/emoji_picker
 - [ ] calendar view
 - [ ] timezone selection
 - [ ] reordering trackers
-- [ ] setting page: theme selection, dark theme, etc
 - [ ] local notifications: https://pub.dev/packages/flutter_local_notifications

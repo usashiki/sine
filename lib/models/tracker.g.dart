@@ -10,6 +10,7 @@ part of 'tracker.dart';
 
 Tracker _$TrackerFromJson(Map<String, dynamic> json) {
   return Tracker(
+    id: json['id'] as String,
     title: json['title'] as String,
     current: json['current'] as int,
     offset: json['offset'] as int,
@@ -22,6 +23,7 @@ Tracker _$TrackerFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$TrackerToJson(Tracker instance) => <String, dynamic>{
+      'id': instance.id,
       'title': instance.title,
       'current': instance.current,
       'offset': instance.offset,

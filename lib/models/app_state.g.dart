@@ -10,6 +10,9 @@ part of 'app_state.dart';
 
 AppState _$AppStateFromJson(Map<String, dynamic> json) {
   return AppState(
+    settings: json['settings'] == null
+        ? null
+        : AppSettings.fromJson(json['settings'] as Map<String, dynamic>),
     trackers: (json['trackers'] as List)
         ?.map((e) =>
             e == null ? null : Tracker.fromJson(e as Map<String, dynamic>))
@@ -19,4 +22,5 @@ AppState _$AppStateFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$AppStateToJson(AppState instance) => <String, dynamic>{
       'trackers': instance.trackers?.map((e) => e?.toJson())?.toList(),
+      'settings': instance.settings?.toJson(),
     };

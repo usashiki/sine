@@ -3,7 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_persist/redux_persist.dart';
 import 'package:redux_persist_flutter/redux_persist_flutter.dart';
-import 'package:sine/containers/tracker_list.dart';
+import 'package:sine/containers/sine_app.dart';
 import 'package:sine/models/app_state.dart';
 import 'package:sine/redux/reducers.dart';
 
@@ -30,13 +30,13 @@ Future<void> main() async {
     middleware: [persistor.createMiddleware()],
   );
 
-  runApp(SineApp(store: store));
+  runApp(Sine(store: store));
 }
 
-class SineApp extends StatelessWidget {
+class Sine extends StatelessWidget {
   final Store<AppState> store;
 
-  const SineApp({
+  const Sine({
     @required this.store,
     Key key,
   }) : super(key: key);
@@ -45,14 +45,7 @@ class SineApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreProvider(
       store: store,
-      child: MaterialApp(
-        title: 'Sine',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: const TrackerList(),
-      ),
+      child: const SineApp(),
     );
   }
 }
