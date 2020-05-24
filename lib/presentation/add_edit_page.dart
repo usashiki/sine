@@ -152,6 +152,7 @@ class _AddEditPageState extends State<AddEditPage> {
                           const InputDecoration(labelText: 'Period Start'),
                       initialValue:
                           widget.tracker?.period?.start ?? DateTime.now(),
+                      format: Period.longFormat,
                       readOnly: !withPeriod,
                     ),
                 ],

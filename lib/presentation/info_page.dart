@@ -32,7 +32,7 @@ class InfoPage extends StatelessWidget {
             title: Column(
               children: <Widget>[
                 _EpisodeCounter(
-                  value: tracker.current,
+                  actual: tracker.current,
                   editCallback: editCurrentCallback,
                   color: tracker.color,
                 ),
@@ -41,7 +41,8 @@ class InfoPage extends StatelessWidget {
                   thickness: 2,
                 ),
                 _EpisodeCounter(
-                  value: tracker.max,
+                  actual: tracker.offset,
+                  displayed: tracker.max,
                   editCallback: editOffsetCallback,
                   color: tracker.color,
                 ),
@@ -74,8 +75,8 @@ class _PeriodTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(Icons.repeat),
-      title: Text('Every ${period.days} days starting on ${period.startStr}'),
+      leading: Icon(MdiIcons.reload),
+      title: Text('New episode every ${period.days} days'),
       subtitle: Text('Next: ${period.nextStr}'),
     );
   }
@@ -104,14 +105,15 @@ class _NotesTile extends StatelessWidget {
 }
 
 class _EpisodeCounter extends StatelessWidget {
-  final int value;
+  final int actual, displayed;
   final Function(int) editCallback;
   final Color color;
 
   const _EpisodeCounter({
-    this.value,
-    this.editCallback,
-    this.color,
+    @required this.actual,
+    this.displayed,
+    @required this.editCallback,
+    @required this.color,
     Key key,
   }) : super(key: key);
 
@@ -122,13 +124,13 @@ class _EpisodeCounter extends StatelessWidget {
         IntrinsicWidth(
           child: IconButton(
             icon: Icon(Icons.remove, color: color),
-            onPressed: () => editCallback(value - 1),
+            onPressed: () => editCallback(actual - 1),
           ),
         ),
         Expanded(
           child: Center(
             child: Text(
-              '$value',
+              '${displayed ?? actual}',
               style: Theme.of(context).textTheme.headline5,
             ),
           ),
@@ -136,7 +138,7 @@ class _EpisodeCounter extends StatelessWidget {
         IntrinsicWidth(
           child: IconButton(
             icon: Icon(Icons.add, color: color),
-            onPressed: () => editCallback(value + 1),
+            onPressed: () => editCallback(actual + 1),
           ),
         ),
         const Text('episodes'),

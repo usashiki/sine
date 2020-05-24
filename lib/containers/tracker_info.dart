@@ -18,6 +18,7 @@ class TrackerInfo extends StatelessWidget {
       builder: (_, vm) => InfoPage(
         tracker: vm.tracker,
         editCurrentCallback: vm.editCurrentCallback,
+        editOffsetCallback: vm.editOffsetCallback,
       ),
     );
   }

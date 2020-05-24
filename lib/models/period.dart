@@ -7,8 +7,8 @@ part 'period.g.dart';
 /// The period at which a [Tracker] auto-increments.
 @JsonSerializable()
 class Period {
-  static final DateFormat _longFormat = DateFormat('yyyy-MM-dd (EEE) HH:mm');
-  static final DateFormat _shortFormat = DateFormat('MMM d (EEE) HH:mm');
+  static final DateFormat longFormat = DateFormat('yyyy-MM-dd (EEE) HH:mm');
+  static final DateFormat shortFormat = DateFormat('MMM d (EEE) HH:mm');
 
   /// The number of days per period.
   final int days;
@@ -36,9 +36,9 @@ class Period {
   int get _diff => DateTime.now().difference(start).inDays;
   int get _periods => ((_diff + 1) / days).ceil();
 
-  String get startStr => _longFormat.format(start);
-  String get nextStr => _longFormat.format(next);
-  String get nextStrShort => _shortFormat.format(next);
+  String get startStr => longFormat.format(start);
+  String get nextStr => longFormat.format(next);
+  String get nextStrShort => shortFormat.format(next);
 
   @override
   String toString() => 'Period(days: $days, start: $start)';
