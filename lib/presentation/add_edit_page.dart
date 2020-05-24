@@ -25,18 +25,21 @@ class AddEditPage extends StatefulWidget {
 }
 
 class _AddEditPageState extends State<AddEditPage> {
-  final String Function(dynamic) integerValidator =
-      FormBuilderValidators.pattern(
-    r'^\-?\d+$',
-    errorText: 'Value must be whole integer.',
-  );
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   bool withPeriod;
+  Period tempPeriod;
+  int tempOffset;
+  int tempDays;
+  DateTime tempStart;
   Color color;
 
   @override
   void initState() {
     withPeriod = widget.tracker?.period != null;
+    tempPeriod = widget.tracker?.period;
+    tempDays = widget.tracker?.period?.days;
+    tempStart = widget.tracker?.period?.start;
+    tempOffset = widget.tracker?.offset ?? 0;
     super.initState();
   }
 
@@ -47,8 +50,25 @@ class _AddEditPageState extends State<AddEditPage> {
     super.didChangeDependencies();
   }
 
+  Period _calcPeriod() {
+    if (!withPeriod) return null;
+    final days =
+        _parseIntStr(_fbKey.currentState.fields['days']?.currentState?.value);
+    final start =
+        _fbKey.currentState.fields['start']?.currentState?.value as DateTime;
+    if (start == null || days == null || days < 1) return null;
+    return Period(days: days, start: start);
+  }
+
   @override
   Widget build(BuildContext context) {
+    String periodLabel = 'Enable auto-incrementing?';
+    if (tempPeriod != null) {
+      periodLabel += '\nNext: ${tempPeriod.nextStr}';
+    }
+    final elapsed = tempPeriod?.elapsed ?? 0;
+    final offsetHelp =
+        'Max = ${elapsed + tempOffset} ($elapsed elapsed + $tempOffset offset)';
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.isEdit ? 'Edit' : 'Add'} Tracker'),
@@ -81,84 +101,6 @@ class _AddEditPageState extends State<AddEditPage> {
               ),
             ),
             ListTile(
-              leading: Icon(MdiIcons.abTesting),
-              title: FormBuilderTextField(
-                attribute: 'current',
-                decoration: const InputDecoration(
-                  labelText: 'Current',
-                  suffixText: 'episodes',
-                ),
-                initialValue: '${widget.tracker?.current ?? ''}',
-                keyboardType: TextInputType.number,
-                validators: [
-                  FormBuilderValidators.numeric(),
-                  integerValidator,
-                  FormBuilderValidators.min(0),
-                ],
-              ),
-            ),
-            ListTile(
-              title: FormBuilderTextField(
-                attribute: 'offset',
-                decoration: const InputDecoration(
-                  labelText: 'Offset',
-                  suffixText: 'episodes',
-                ),
-                initialValue: '${widget.tracker?.offset ?? ''}',
-                keyboardType: TextInputType.number,
-                validators: [
-                  FormBuilderValidators.numeric(),
-                  integerValidator,
-                ],
-              ),
-            ),
-            ListTile(
-              leading: Icon(MdiIcons.reload),
-              title: Column(
-                children: <Widget>[
-                  FormBuilderSwitch(
-                    attribute: 'period',
-                    decoration: const InputDecoration(
-                      labelText: 'Period',
-                      border: InputBorder.none,
-                    ),
-                    initialValue: withPeriod,
-                    label: const Text('Enable auto-increment'),
-                    activeColor: color,
-                    onChanged: (dynamic val) =>
-                        setState(() => withPeriod = val as bool),
-                  ),
-                  if (withPeriod)
-                    FormBuilderTextField(
-                      attribute: 'days',
-                      decoration: const InputDecoration(
-                        labelText: 'Period length',
-                        suffixText: 'days',
-                      ),
-                      initialValue: '${widget.tracker?.period?.days ?? 7}',
-                      keyboardType: TextInputType.number,
-                      readOnly: !withPeriod,
-                      validators: [
-                        FormBuilderValidators.required(),
-                        FormBuilderValidators.numeric(),
-                        integerValidator,
-                        FormBuilderValidators.min(0),
-                      ],
-                    ),
-                  if (withPeriod)
-                    FormBuilderDateTimePicker(
-                      attribute: 'start',
-                      decoration:
-                          const InputDecoration(labelText: 'Period Start'),
-                      initialValue:
-                          widget.tracker?.period?.start ?? DateTime.now(),
-                      format: Period.longFormat,
-                      readOnly: !withPeriod,
-                    ),
-                ],
-              ),
-            ),
-            ListTile(
               leading: Icon(Icons.palette),
               title: FormBuilderColorPicker(
                 attribute: 'color',
@@ -169,6 +111,123 @@ class _AddEditPageState extends State<AddEditPage> {
                 initialValue: color,
                 onChanged: (dynamic c) => setState(() => color = c as Color),
                 colorPickerType: ColorPickerType.BlockPicker,
+              ),
+            ),
+            ListTile(
+              leading: Icon(MdiIcons.abTesting),
+              title: Column(
+                children: <Widget>[
+                  FormBuilderTextField(
+                    attribute: 'current',
+                    decoration: const InputDecoration(
+                      labelText: 'Current',
+                      suffixText: 'episodes',
+                    ),
+                    initialValue: '${widget.tracker?.current ?? '0'}',
+                    keyboardType: TextInputType.number,
+                    validators: [
+                      (dynamic d) {
+                        if ((_parseIntStr(d) ?? -1) < 0) {
+                          return 'Must be a number >= 0.';
+                        }
+                      },
+                    ],
+                  ),
+                  FormBuilderTextField(
+                    attribute: 'offset',
+                    decoration: InputDecoration(
+                      labelText: 'Offset',
+                      suffixText: 'episodes',
+                      helperText: offsetHelp,
+                    ),
+                    initialValue: '${widget.tracker?.offset ?? '0'}',
+                    keyboardType: TextInputType.number,
+                    autovalidate: true,
+                    onChanged: (dynamic d) =>
+                        setState(() => tempOffset = _parseIntStr(d) ?? 0),
+                    validators: [
+                      (dynamic d) {
+                        if (_parseIntStr(d) == null) return 'Must be a number.';
+                      }
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: Icon(MdiIcons.reload),
+              title: Column(
+                children: <Widget>[
+                  FormBuilderSwitch(
+                    attribute: 'period',
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                    ),
+                    initialValue: withPeriod,
+                    label: Text(periodLabel),
+                    activeColor: color,
+                    onChanged: (dynamic val) {
+                      setState(() => withPeriod = val as bool);
+                      setState(() => tempPeriod = _calcPeriod());
+                    },
+                  ),
+                  Visibility(
+                    visible: withPeriod,
+                    maintainState: true,
+                    child: FormBuilderTextField(
+                      attribute: 'days',
+                      decoration: const InputDecoration(
+                        prefixText: 'Every  ',
+                        suffixText: 'days',
+                      ),
+                      initialValue: '${widget.tracker?.period?.days ?? 7}',
+                      keyboardType: TextInputType.number,
+                      readOnly: !withPeriod,
+                      autovalidate: true,
+                      onChanged: (dynamic val) {
+                        setState(() {
+                          final days = _parseIntStr(val);
+                          if (days != null && days > 0) {
+                            tempDays = days;
+                          } else {
+                            tempDays = null;
+                          }
+                          print(tempDays);
+                        });
+                        setState(() => tempPeriod = _calcPeriod());
+                      },
+                      validators: [
+                        (dynamic d) {
+                          if ((_parseIntStr(d) ?? -1) < 1) {
+                            return 'Must be a postive number.';
+                          }
+                        },
+                      ],
+                    ),
+                  ),
+                  Visibility(
+                    visible: withPeriod,
+                    maintainState: true,
+                    child: FormBuilderDateTimePicker(
+                      attribute: 'start',
+                      decoration:
+                          const InputDecoration(labelText: 'Starting from'),
+                      initialValue:
+                          widget.tracker?.period?.start ?? DateTime.now(),
+                      format: Period.longFormat,
+                      autovalidate: true,
+                      readOnly: !withPeriod,
+                      onChanged: (dynamic val) {
+                        setState(() {
+                          tempStart = val as DateTime;
+                          print(tempStart);
+                        });
+                        setState(() => tempPeriod = _calcPeriod());
+                      },
+                      validators: [FormBuilderValidators.required()],
+                    ),
+                  ),
+                ],
               ),
             ),
             ListTile(
@@ -215,8 +274,6 @@ class _AddEditPageState extends State<AddEditPage> {
 
 int _parseIntStr(dynamic d) {
   final s = d as String;
-  if (s.isEmpty) {
-    return 0;
-  }
-  return int.tryParse(s) ?? 0;
+  if (s == null || s.isEmpty) return null;
+  return int.tryParse(s);
 }

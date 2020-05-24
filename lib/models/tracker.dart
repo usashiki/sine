@@ -40,7 +40,8 @@ class Tracker {
     @required this.colorInt,
     this.period,
     this.notes = '',
-  }) : id = id ?? Uuid().v4();
+  })  : id = id ?? Uuid().v4(),
+        assert(current > -1);
 
   Tracker copyWith({
     String id,

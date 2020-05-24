@@ -40,6 +40,7 @@ The structure of `lib/` is as follows:
 - [x] polish details ui: add icons, allow +/- cur/max
 - [ ] polish edit ui: add icons, match details page
 - [ ] custom page transition
+- [ ] routing
 - [ ] dark theme
 - [ ] container and presentation widget naming convention
 - [ ] readme, comments

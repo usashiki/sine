@@ -21,6 +21,11 @@ class Period {
     @required this.start,
   }) : assert(days > 0);
 
+  Period copyWith({int days, DateTime start}) => Period(
+        days: days ?? this.days,
+        start: start ?? this.start,
+      );
+
   /// The number of periods since [start].
   int get elapsed => start.isAfter(DateTime.now()) ? 0 : _periods;
 

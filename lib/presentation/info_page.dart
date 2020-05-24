@@ -76,7 +76,8 @@ class _PeriodTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(MdiIcons.reload),
-      title: Text('New episode every ${period.days} days'),
+      title: Text(
+          'New episode every ${period.days} days (elapsed: ${period.elapsed} eps)'),
       subtitle: Text('Next: ${period.nextStr}'),
     );
   }
