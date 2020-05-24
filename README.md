@@ -38,7 +38,7 @@ The structure of `lib/` is as follows:
 - [x] remove links field for https://pub.dev/packages/flutter_linkify
 - [x] list cards: enable +1 on long press (create new action?)
 - [x] polish details ui: add icons, allow +/- cur/max
-- [ ] polish edit ui: add icons, match details page
+- [x] polish edit ui: add icons, match details page
 - [ ] custom page transition
 - [ ] routing
 - [ ] dark theme

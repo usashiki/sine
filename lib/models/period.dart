@@ -42,6 +42,7 @@ class Period {
   int get _periods => ((_diff + 1) / days).ceil();
 
   String get startStr => longFormat.format(start);
+  String get previousStr => longFormat.format(previous);
   String get nextStr => longFormat.format(next);
   String get nextStrShort => shortFormat.format(next);
 

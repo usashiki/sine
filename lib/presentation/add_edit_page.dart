@@ -27,7 +27,6 @@ class AddEditPage extends StatefulWidget {
 class _AddEditPageState extends State<AddEditPage> {
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   bool withPeriod;
-  Period tempPeriod;
   int tempOffset;
   int tempDays;
   DateTime tempStart;
@@ -36,9 +35,8 @@ class _AddEditPageState extends State<AddEditPage> {
   @override
   void initState() {
     withPeriod = widget.tracker?.period != null;
-    tempPeriod = widget.tracker?.period;
-    tempDays = widget.tracker?.period?.days;
-    tempStart = widget.tracker?.period?.start;
+    tempDays = widget.tracker?.period?.days ?? 7;
+    tempStart = widget.tracker?.period?.start ?? DateTime.now();
     tempOffset = widget.tracker?.offset ?? 0;
     super.initState();
   }
@@ -50,25 +48,20 @@ class _AddEditPageState extends State<AddEditPage> {
     super.didChangeDependencies();
   }
 
-  Period _calcPeriod() {
-    if (!withPeriod) return null;
-    final days =
-        _parseIntStr(_fbKey.currentState.fields['days']?.currentState?.value);
-    final start =
-        _fbKey.currentState.fields['start']?.currentState?.value as DateTime;
-    if (start == null || days == null || days < 1) return null;
-    return Period(days: days, start: start);
+  int _parseIntStr(dynamic d) {
+    final s = d as String;
+    if (s == null || s.isEmpty) return null;
+    return int.tryParse(s);
   }
 
   @override
   Widget build(BuildContext context) {
-    String periodLabel = 'Enable auto-incrementing?';
-    if (tempPeriod != null) {
-      periodLabel += '\nNext: ${tempPeriod.nextStr}';
+    Period tempPeriod;
+    if (withPeriod && tempDays != null && tempStart != null) {
+      tempPeriod = Period(days: tempDays, start: tempStart);
     }
-    final elapsed = tempPeriod?.elapsed ?? 0;
-    final offsetHelp =
-        'Max = ${elapsed + tempOffset} ($elapsed elapsed + $tempOffset offset)';
+    final tempElapsed = tempPeriod?.elapsed ?? 0;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.isEdit ? 'Edit' : 'Add'} Tracker'),
@@ -97,6 +90,8 @@ class _AddEditPageState extends State<AddEditPage> {
                 attribute: 'title',
                 decoration: const InputDecoration(labelText: 'Title'),
                 initialValue: widget.tracker?.title,
+                autofocus: !widget.isEdit,
+                autovalidate: true,
                 validators: [FormBuilderValidators.required()],
               ),
             ),
@@ -111,6 +106,8 @@ class _AddEditPageState extends State<AddEditPage> {
                 initialValue: color,
                 onChanged: (dynamic c) => setState(() => color = c as Color),
                 colorPickerType: ColorPickerType.BlockPicker,
+                autovalidate: true,
+                validators: [FormBuilderValidators.required()],
               ),
             ),
             ListTile(
@@ -138,13 +135,14 @@ class _AddEditPageState extends State<AddEditPage> {
                     decoration: InputDecoration(
                       labelText: 'Offset',
                       suffixText: 'episodes',
-                      helperText: offsetHelp,
+                      helperText:
+                          'Max = ${tempElapsed + tempOffset} ($tempElapsed elapsed + $tempOffset offset)',
                     ),
                     initialValue: '${widget.tracker?.offset ?? '0'}',
                     keyboardType: TextInputType.number,
-                    autovalidate: true,
                     onChanged: (dynamic d) =>
                         setState(() => tempOffset = _parseIntStr(d) ?? 0),
+                    autovalidate: true,
                     validators: [
                       (dynamic d) {
                         if (_parseIntStr(d) == null) return 'Must be a number.';
@@ -164,12 +162,29 @@ class _AddEditPageState extends State<AddEditPage> {
                       border: InputBorder.none,
                     ),
                     initialValue: withPeriod,
-                    label: Text(periodLabel),
+                    label: Text.rich(
+                      TextSpan(
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Enable auto-incrementing?',
+                            style: Theme.of(context).textTheme.bodyText2,
+                          ),
+                          if (tempPeriod != null)
+                            TextSpan(
+                              text: '\nPrevious: ${tempPeriod.previousStr}',
+                              style: Theme.of(context).textTheme.caption,
+                            ),
+                          if (tempPeriod != null)
+                            TextSpan(
+                              text: '\nNext: ${tempPeriod.nextStr}',
+                              style: Theme.of(context).textTheme.caption,
+                            ),
+                        ],
+                      ),
+                    ),
                     activeColor: color,
-                    onChanged: (dynamic val) {
-                      setState(() => withPeriod = val as bool);
-                      setState(() => tempPeriod = _calcPeriod());
-                    },
+                    onChanged: (dynamic val) =>
+                        setState(() => withPeriod = val as bool),
                   ),
                   Visibility(
                     visible: withPeriod,
@@ -180,10 +195,9 @@ class _AddEditPageState extends State<AddEditPage> {
                         prefixText: 'Every  ',
                         suffixText: 'days',
                       ),
-                      initialValue: '${widget.tracker?.period?.days ?? 7}',
+                      initialValue: '$tempDays',
                       keyboardType: TextInputType.number,
                       readOnly: !withPeriod,
-                      autovalidate: true,
                       onChanged: (dynamic val) {
                         setState(() {
                           final days = _parseIntStr(val);
@@ -192,10 +206,9 @@ class _AddEditPageState extends State<AddEditPage> {
                           } else {
                             tempDays = null;
                           }
-                          print(tempDays);
                         });
-                        setState(() => tempPeriod = _calcPeriod());
                       },
+                      autovalidate: true,
                       validators: [
                         (dynamic d) {
                           if ((_parseIntStr(d) ?? -1) < 1) {
@@ -212,18 +225,12 @@ class _AddEditPageState extends State<AddEditPage> {
                       attribute: 'start',
                       decoration:
                           const InputDecoration(labelText: 'Starting from'),
-                      initialValue:
-                          widget.tracker?.period?.start ?? DateTime.now(),
+                      initialValue: tempStart,
                       format: Period.longFormat,
-                      autovalidate: true,
                       readOnly: !withPeriod,
-                      onChanged: (dynamic val) {
-                        setState(() {
-                          tempStart = val as DateTime;
-                          print(tempStart);
-                        });
-                        setState(() => tempPeriod = _calcPeriod());
-                      },
+                      onChanged: (dynamic val) =>
+                          setState(() => tempStart = val as DateTime),
+                      autovalidate: true,
                       validators: [FormBuilderValidators.required()],
                     ),
                   ),
@@ -246,22 +253,22 @@ class _AddEditPageState extends State<AddEditPage> {
         onPressed: () {
           if (_fbKey.currentState.saveAndValidate()) {
             final map = _fbKey.currentState.value;
-            print(map);
-            final newTracker = Tracker(
-              id: widget.tracker?.id,
-              title: map['title'] as String,
-              current: _parseIntStr(map['current']),
-              offset: _parseIntStr(map['offset']),
-              colorInt: (map['color'] as Color).value,
-              period: withPeriod
-                  ? Period(
-                      days: _parseIntStr(map['days']),
-                      start: map['start'] as DateTime,
-                    )
-                  : null,
-              notes: map['notes'] as String,
+            widget.onSaveCallback(
+              Tracker(
+                id: widget.tracker?.id,
+                title: map['title'] as String,
+                current: _parseIntStr(map['current']),
+                offset: _parseIntStr(map['offset']),
+                colorInt: (map['color'] as Color).value,
+                period: withPeriod
+                    ? Period(
+                        days: _parseIntStr(map['days']),
+                        start: map['start'] as DateTime,
+                      )
+                    : null,
+                notes: map['notes'] as String,
+              ),
             );
-            widget.onSaveCallback(newTracker);
             Navigator.pop(context);
           }
         },
@@ -270,10 +277,4 @@ class _AddEditPageState extends State<AddEditPage> {
       ),
     );
   }
-}
-
-int _parseIntStr(dynamic d) {
-  final s = d as String;
-  if (s == null || s.isEmpty) return null;
-  return int.tryParse(s);
 }
