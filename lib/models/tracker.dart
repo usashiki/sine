@@ -87,12 +87,12 @@ class Tracker {
 
   /// Compares [next] to another Tracker's next in a null-safe way with nulls
   /// last.
-  int compareNext(Tracker other) => next.compareNullsLast(other.next);
+  int compareNext(Tracker other) => next.compareAscendingNullsLast(other.next);
 
   /// Compares [previous] to another Tracker's previous in a null-safe way with
   /// nulls last.
   int comparePrevious(Tracker other) =>
-      previous.compareNullsLast(other.previous);
+      previous.compareDescendingNullsLast(other.previous);
 
   @override
   String toString() =>
