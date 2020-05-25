@@ -46,7 +46,7 @@ This repo is set up to create new versioned releases with a built APK using GitH
 To create a new versioned release, do the following
 
 - [ ] Increment the `version` field in `pubspec.yaml`, eg `1.0.0`
-- [ ] Create a new entry in the changelog below
+- [ ] Create a new entry in the changelog below, and update this readme as required
 - [ ] Commit and push your changes
 - [ ] Tag the commit, eg `git tag v1.0.0` (the `v` is required)
 - [ ] Push the tag: `git push origin v1.0.0`
