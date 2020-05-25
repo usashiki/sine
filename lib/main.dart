@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_persist/redux_persist.dart';
@@ -11,6 +12,8 @@ const String trackerBoxName = 'trackers';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.restoreSystemUIOverlays();
 
   final persistor = Persistor<AppState>(
     storage: FlutterStorage(),
