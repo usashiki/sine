@@ -45,6 +45,7 @@ class ListPage extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.info),
+            tooltip: 'App Info',
             onPressed: () async => showAboutDialog(
               context: context,
               applicationIcon: Image.asset('assets/icon/icon.png', width: 48),

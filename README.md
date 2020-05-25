@@ -2,9 +2,15 @@
 
 Sine is an episode tracking app for Android, designed for keeping track of your progress on episodic content, including content which updates periodically.
 
-## Features / Screenshots
+## Screenshots
 
-TODO
+| List page                                   | Info page                                   | Edit page                                   |
+| ------------------------------------------- | ------------------------------------------- | ------------------------------------------- |
+| <img src="images/list.png" width="300px" /> | <img src="images/info.png" width="300px" /> | <img src="images/edit.png" width="300px" /> |
+
+In Sine, you create trackers to track your progress on some episodic content.
+Trackers have both current and maximum number of episodes.
+For auto-incrementing content, the maximum episode count is calculated based on the period (defined by a start date and frequency of updates) plus an offset.
 
 ## Installation
 
@@ -46,8 +52,6 @@ Initial release.
 
 ## Roadmap
 
-- [ ] readme, comments
-  - [ ] features + screenshots
 - [ ] formal data export/import
 - [ ] themeing
   - [ ] dark theme

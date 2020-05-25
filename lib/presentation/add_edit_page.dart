@@ -124,10 +124,11 @@ class _AddEditPageState extends State<AddEditPage> {
                   FormBuilderTextField(
                     attribute: 'offset',
                     decoration: InputDecoration(
-                      labelText: 'Offset',
+                      labelText: tempPeriod == null ? 'Max' : 'Offset',
                       suffixText: 'episodes',
-                      helperText:
-                          'Max = ${tempElapsed + tempOffset} ($tempElapsed elapsed + $tempOffset offset)',
+                      helperText: tempPeriod == null
+                          ? null
+                          : 'Max = ${tempElapsed + tempOffset} ($tempElapsed elapsed + $tempOffset offset)',
                     ),
                     initialValue: '${widget.tracker?.offset ?? '0'}',
                     keyboardType: TextInputType.number,
