@@ -4,7 +4,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'period.g.dart';
 
-/// The period at which a [Tracker] auto-increments.
 @JsonSerializable()
 class Period {
   static final DateFormat longFormat = DateFormat('yyyy-MM-dd (EEE) HH:mm');
@@ -16,6 +15,7 @@ class Period {
   /// The date this interval starts.
   final DateTime start;
 
+  /// The period at which a [Tracker] auto-increments.
   const Period({
     @required this.days,
     @required this.start,

@@ -6,10 +6,13 @@ part 'app_state.g.dart';
 
 @JsonSerializable()
 class AppState {
+  /// The trackers stored in this app.
   final List<Tracker> trackers;
 
+  /// The app settings. Currently unused.
   final AppSettings settings;
 
+  /// Model for the app state.
   const AppState({
     this.settings = const AppSettings(),
     this.trackers = const [],

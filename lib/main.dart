@@ -1,22 +1,23 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_persist/redux_persist.dart';
-import 'package:redux_persist_flutter/redux_persist_flutter.dart';
 import 'package:sine/containers/sine_app.dart';
 import 'package:sine/models/app_state.dart';
 import 'package:sine/redux/reducers.dart';
+import 'package:path_provider/path_provider.dart';
 
 const String trackerBoxName = 'trackers';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  SystemChrome.restoreSystemUIOverlays();
-
+  // using getExternalStorageDirectory so accessible without root
   final persistor = Persistor<AppState>(
-    storage: FlutterStorage(),
+    storage: FileStorage(
+        File('${(await getExternalStorageDirectory()).path}/state.json')),
     serializer: JsonSerializer<AppState>(AppState.fromJsonDynamic),
   );
 

@@ -436,6 +436,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.9.3"
+  package_info:
+    dependency: "direct main"
+    description:
+      name: package_info
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.0+18"
   path:
     dependency: transitive
     description:
@@ -444,12 +451,12 @@ packages:
     source: hosted
     version: "1.6.4"
   path_provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path_provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.8"
+    version: "1.6.9"
   path_provider_macos:
     dependency: transitive
     description:
@@ -535,47 +542,12 @@ packages:
     source: hosted
     version: "4.0.0"
   redux_persist:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: redux_persist
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.8.4"
-  redux_persist_flutter:
-    dependency: "direct main"
-    description:
-      name: redux_persist_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.8.2"
-  shared_preferences:
-    dependency: transitive
-    description:
-      name: shared_preferences
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.7+2"
-  shared_preferences_macos:
-    dependency: transitive
-    description:
-      name: shared_preferences_macos
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.1+8"
-  shared_preferences_platform_interface:
-    dependency: transitive
-    description:
-      name: shared_preferences_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.4"
-  shared_preferences_web:
-    dependency: transitive
-    description:
-      name: shared_preferences_web
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.2+5"
   shelf:
     dependency: transitive
     description:

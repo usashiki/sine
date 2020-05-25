@@ -226,7 +226,7 @@ class _AddEditPageState extends State<AddEditPage> {
                 initialValue: widget.tracker?.notes,
               ),
             ),
-            const SizedBox(height: 80), // to fully expose notes under fab
+            const SizedBox(height: 80), // "overscroll" for fab
           ],
         ),
       ),

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:package_info/package_info.dart';
 import 'package:sine/containers/tracker_add.dart';
 import 'package:sine/models/tracker.dart';
 import 'package:sine/presentation/summary_card.dart';
 import 'package:supercharged/supercharged.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ListPage extends StatelessWidget {
   final List<Tracker> trackers;
@@ -42,11 +45,21 @@ class ListPage extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.info),
-            onPressed: () => showAboutDialog(
+            onPressed: () async => showAboutDialog(
               context: context,
-              applicationIcon: Icon(Icons.info, size: 42),
-              applicationVersion: '0.0.1',
-              children: <Widget>[const Text('')],
+              applicationIcon: Image.asset('assets/icon/icon.png', width: 48),
+              applicationVersion: (await PackageInfo.fromPlatform()).version,
+              children: <Widget>[
+                Linkify(
+                  onOpen: (link) => launch(link.url),
+                  linkStyle: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    decoration: TextDecoration.underline,
+                  ),
+                  options: LinkifyOptions(humanize: false),
+                  text: 'https://github.com/usashiki/sine',
+                ),
+              ],
             ),
           )
         ],
@@ -58,7 +71,7 @@ class ListPage extends StatelessWidget {
               tracker: t,
               onLongPress: () => editCurrentCallback(t.id, t.current + 1),
             ),
-          const SizedBox(height: 80), // to fully expose notes under fab
+          const SizedBox(height: 80), // "overscroll" for fab
         ],
       ),
       floatingActionButton: FloatingActionButton(

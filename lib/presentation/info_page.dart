@@ -111,6 +111,7 @@ class _NotesTile extends StatelessWidget {
           color: linkColor,
           decoration: TextDecoration.underline,
         ),
+        options: LinkifyOptions(humanize: false),
         text: text,
       ),
     );

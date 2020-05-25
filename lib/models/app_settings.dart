@@ -7,9 +7,11 @@ part 'app_settings.g.dart';
 
 @JsonSerializable()
 class AppSettings {
-  /// The theme of the app.
+  /// The theme color of the app. Also serves as the default [Tracker] color.
+  /// Defaults to [Colors.blue].
   final int themeColorInt;
 
+  /// Model for app settings. Currently unused.
   const AppSettings({
     this.themeColorInt = 0xFF2196F3,
   });
