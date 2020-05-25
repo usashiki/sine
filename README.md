@@ -39,8 +39,8 @@ The structure of `lib/` is as follows:
 - [x] list cards: enable +1 on long press (create new action?)
 - [x] polish details ui: add icons, allow +/- cur/max
 - [x] polish edit ui: add icons, match details page
-- [ ] custom page transition
 - [ ] routing
+- [ ] custom page transition
 - [ ] dark theme
 - [ ] container and presentation widget naming convention
 - [ ] readme, comments

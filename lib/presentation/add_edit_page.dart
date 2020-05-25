@@ -4,8 +4,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:sine/models/period.dart';
 import 'package:sine/models/tracker.dart';
 
-// TODO: use color in all formfields
-
 class AddEditPage extends StatefulWidget {
   final Tracker tracker;
   final Function(Tracker) onSaveCallback;
@@ -34,10 +32,10 @@ class _AddEditPageState extends State<AddEditPage> {
 
   @override
   void initState() {
+    tempOffset = widget.tracker?.offset ?? 0;
     withPeriod = widget.tracker?.period != null;
     tempDays = widget.tracker?.period?.days ?? 7;
     tempStart = widget.tracker?.period?.start ?? DateTime.now();
-    tempOffset = widget.tracker?.offset ?? 0;
     super.initState();
   }
 
@@ -52,6 +50,19 @@ class _AddEditPageState extends State<AddEditPage> {
     final s = d as String;
     if (s == null || s.isEmpty) return null;
     return int.tryParse(s);
+  }
+
+  String Function(dynamic) _integerValidator({int min}) {
+    if (min == null) {
+      return (dynamic d) {
+        if (_parseIntStr(d) == null) return 'Must be an integer.';
+        return null;
+      };
+    }
+    return (dynamic d) {
+      if ((_parseIntStr(d) ?? -1) < min) return 'Must be an integer >= $min.';
+      return null;
+    };
   }
 
   @override
@@ -73,9 +84,9 @@ class _AddEditPageState extends State<AddEditPage> {
               tooltip: 'Delete Tracker',
               onPressed: () {
                 widget.deleteCallback(widget.tracker.id);
-                // TODO: this is a hack to return to list screen
                 Navigator.pop(context);
                 Navigator.pop(context);
+                // Navigator.popUntil(context, ModelRoute.withName('/'));
               },
             ),
         ],
@@ -122,13 +133,8 @@ class _AddEditPageState extends State<AddEditPage> {
                     ),
                     initialValue: '${widget.tracker?.current ?? '0'}',
                     keyboardType: TextInputType.number,
-                    validators: [
-                      (dynamic d) {
-                        if ((_parseIntStr(d) ?? -1) < 0) {
-                          return 'Must be a number >= 0.';
-                        }
-                      },
-                    ],
+                    autovalidate: true,
+                    validators: [_integerValidator(min: 0)],
                   ),
                   FormBuilderTextField(
                     attribute: 'offset',
@@ -143,11 +149,7 @@ class _AddEditPageState extends State<AddEditPage> {
                     onChanged: (dynamic d) =>
                         setState(() => tempOffset = _parseIntStr(d) ?? 0),
                     autovalidate: true,
-                    validators: [
-                      (dynamic d) {
-                        if (_parseIntStr(d) == null) return 'Must be a number.';
-                      }
-                    ],
+                    validators: [_integerValidator()],
                   ),
                 ],
               ),
@@ -209,13 +211,7 @@ class _AddEditPageState extends State<AddEditPage> {
                         });
                       },
                       autovalidate: true,
-                      validators: [
-                        (dynamic d) {
-                          if ((_parseIntStr(d) ?? -1) < 1) {
-                            return 'Must be a postive number.';
-                          }
-                        },
-                      ],
+                      validators: [_integerValidator(min: 1)],
                     ),
                   ),
                   Visibility(
@@ -224,7 +220,7 @@ class _AddEditPageState extends State<AddEditPage> {
                     child: FormBuilderDateTimePicker(
                       attribute: 'start',
                       decoration:
-                          const InputDecoration(labelText: 'Starting from'),
+                          const InputDecoration(labelText: 'Starting on'),
                       initialValue: tempStart,
                       format: Period.longFormat,
                       readOnly: !withPeriod,
@@ -245,6 +241,7 @@ class _AddEditPageState extends State<AddEditPage> {
                 initialValue: widget.tracker?.notes,
               ),
             ),
+            const SizedBox(height: 80), // to fully expose notes under fab
           ],
         ),
       ),
@@ -252,21 +249,21 @@ class _AddEditPageState extends State<AddEditPage> {
         backgroundColor: color,
         onPressed: () {
           if (_fbKey.currentState.saveAndValidate()) {
-            final map = _fbKey.currentState.value;
+            final form = _fbKey.currentState.value;
             widget.onSaveCallback(
               Tracker(
                 id: widget.tracker?.id,
-                title: map['title'] as String,
-                current: _parseIntStr(map['current']),
-                offset: _parseIntStr(map['offset']),
-                colorInt: (map['color'] as Color).value,
+                title: form['title'] as String,
+                current: _parseIntStr(form['current']),
+                offset: _parseIntStr(form['offset']),
+                colorInt: (form['color'] as Color).value,
                 period: withPeriod
                     ? Period(
-                        days: _parseIntStr(map['days']),
-                        start: map['start'] as DateTime,
+                        days: _parseIntStr(form['days']),
+                        start: form['start'] as DateTime,
                       )
                     : null,
-                notes: map['notes'] as String,
+                notes: form['notes'] as String,
               ),
             );
             Navigator.pop(context);
