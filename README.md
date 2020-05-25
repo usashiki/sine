@@ -15,7 +15,7 @@ For auto-incrementing content, the maximum episode count is calculated based on 
 ## Installation
 
 Download the APK file from the [latest release](https://github.com/usashiki/Eventersearch/releases/latest).
-Alternatively, clone the repo and build the APK yourself with `flutter build apk`.
+Alternatively, clone the repo and build the APK with `flutter build apk`.
 
 ### Data import/export
 
@@ -39,6 +39,17 @@ The directory structure of `lib/` is as follows:
 - `redux/` - the Redux constructs, eg actions and reducers
 
 There are no tests.
+
+### Releases
+
+This repo is set up to create new versioned releases with a built APK using GitHub Actions.
+To create a new versioned release, do the following
+
+- [ ] Increment the `version` field in `pubspec.yaml`, eg `1.0.0`
+- [ ] Create a new entry in the changelog below
+- [ ] Commit and push your changes
+- [ ] Tag the commit, eg `git tag v1.0.0` (the `v` is required)
+- [ ] Push the tag: `git push origin v1.0.0`
 
 ### Icon
 
