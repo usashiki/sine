@@ -19,7 +19,7 @@ Alternatively, clone the repo and build the APK with `flutter build apk`.
 
 ### Data import/export
 
-App data is stored in the app's external storage directory, typically located at `/sdcard/Android/data/com.example.sine/files/state.json`.
+App data is stored in the app's external storage directory, typically located at `/sdcard/Android/data/com.usashiki.sine/files/state.json`.
 To export, copy `state.json`, and to import, replace `state.json`.
 
 ## Development
@@ -43,13 +43,15 @@ There are no tests.
 ### Releases
 
 This repo is set up to create new versioned releases with a built APK using GitHub Actions.
-To create a new versioned release, do the following
+To create a new versioned release, do the following:
 
-- [ ] Increment the `version` field in `pubspec.yaml`, eg `1.0.0`
-- [ ] Create a new entry in the changelog below, and update this readme as required
+- [ ] Increment the `version` field in `pubspec.yaml`, eg `0.0.1`
+- [ ] Create a new entry in the changelog [below](#changelog), and update this readme as required
 - [ ] Commit and push your changes
-- [ ] Tag the commit, eg `git tag v1.0.0` (the `v` is required)
-- [ ] Push the tag: `git push origin v1.0.0`
+- [ ] Tag the commit, eg `git tag v0.0.1` (the `v` is required)
+- [ ] Push the tag: `git push origin v0.0.1`
+
+(For reference: `git tag -d v0.0.1` to delete tag locally, `git push --delete origin v0.0.1` to delete tag on remote.)
 
 ### Icon
 
