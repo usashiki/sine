@@ -1,6 +1,5 @@
 import 'package:sine/models/app_state.dart';
 import 'package:sine/models/tracker.dart';
-import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:sine/presentation/add_edit_page.dart';
@@ -13,32 +12,14 @@ class TrackerEdit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, _ViewModel>(
-      converter: _ViewModel.fromStore,
-      builder: (context, vm) => AddEditPage(
+    return StoreConnector<AppState, Function(Tracker)>(
+      converter: (store) => (Tracker editedTracker) {
+        store.dispatch(EditTrackerAction(editedTracker));
+      },
+      builder: (context, callback) => AddEditPage(
         tracker: tracker,
-        onSaveCallback: vm.onSaveCallback,
-        deleteCallback: vm.deleteCallback,
+        onSaveCallback: callback,
       ),
     );
   }
-}
-
-class _ViewModel {
-  final Function(Tracker) onSaveCallback;
-  final Function(String) deleteCallback;
-
-  _ViewModel({
-    @required this.onSaveCallback,
-    @required this.deleteCallback,
-  });
-
-  static _ViewModel fromStore(Store<AppState> store) => _ViewModel(
-        onSaveCallback: (Tracker editedTracker) {
-          store.dispatch(EditTrackerAction(editedTracker));
-        },
-        deleteCallback: (String id) {
-          store.dispatch(DeleteTrackerAction(id));
-        },
-      );
 }

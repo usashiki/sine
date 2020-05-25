@@ -10,11 +10,13 @@ class InfoPage extends StatelessWidget {
   final Tracker tracker;
   final Function(int) editCurrentCallback;
   final Function(int) editOffsetCallback;
+  final VoidCallback deleteCallback;
 
   const InfoPage({
     this.tracker,
     this.editCurrentCallback,
     this.editOffsetCallback,
+    this.deleteCallback,
     Key key,
   }) : super(key: key);
 
@@ -24,6 +26,16 @@ class InfoPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(tracker.title),
         backgroundColor: tracker.color,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.delete),
+            tooltip: 'Delete Tracker',
+            onPressed: () {
+              deleteCallback();
+              Navigator.pop(context);
+            },
+          ),
+        ],
       ),
       body: ListView(
         children: <Widget>[

@@ -19,6 +19,7 @@ class TrackerInfo extends StatelessWidget {
         tracker: vm.tracker,
         editCurrentCallback: vm.editCurrentCallback,
         editOffsetCallback: vm.editOffsetCallback,
+        deleteCallback: vm.deleteCallback,
       ),
     );
   }
@@ -28,18 +29,27 @@ class _ViewModel {
   final Tracker tracker;
   final Function(int) editCurrentCallback;
   final Function(int) editOffsetCallback;
+  final VoidCallback deleteCallback;
 
   _ViewModel({
     @required this.tracker,
     @required this.editCurrentCallback,
     @required this.editOffsetCallback,
+    @required this.deleteCallback,
   });
 
   static _ViewModel fromStore(Store<AppState> store, String id) => _ViewModel(
-        tracker: store.state.trackers.firstWhere((tracker) => tracker.id == id),
+        tracker: store.state.trackers.firstWhere(
+          (tracker) => tracker.id == id,
+          orElse: () => Tracker(
+              title: '', current: 0, offset: 0, colorInt: Colors.blue.value),
+        ),
         editCurrentCallback: (int newCurrent) =>
             store.dispatch(EditTrackerCurrentAction(id, newCurrent)),
         editOffsetCallback: (int newOffset) =>
             store.dispatch(EditTrackerOffsetAction(id, newOffset)),
+        deleteCallback: () {
+          store.dispatch(DeleteTrackerAction(id));
+        },
       );
 }

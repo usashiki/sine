@@ -7,13 +7,11 @@ import 'package:sine/models/tracker.dart';
 class AddEditPage extends StatefulWidget {
   final Tracker tracker;
   final Function(Tracker) onSaveCallback;
-  final Function(String) deleteCallback;
   final bool isEdit;
 
   const AddEditPage({
     @required this.onSaveCallback,
     this.tracker,
-    this.deleteCallback,
     Key key,
   })  : isEdit = tracker != null,
         super(key: key);
@@ -77,19 +75,6 @@ class _AddEditPageState extends State<AddEditPage> {
       appBar: AppBar(
         title: Text('${widget.isEdit ? 'Edit' : 'Add'} Tracker'),
         backgroundColor: color,
-        actions: <Widget>[
-          if (widget.isEdit)
-            IconButton(
-              icon: Icon(Icons.delete),
-              tooltip: 'Delete Tracker',
-              onPressed: () {
-                widget.deleteCallback(widget.tracker.id);
-                Navigator.pop(context);
-                Navigator.pop(context);
-                // Navigator.popUntil(context, ModelRoute.withName('/'));
-              },
-            ),
-        ],
       ),
       body: FormBuilder(
         key: _fbKey,

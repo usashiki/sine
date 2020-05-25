@@ -19,6 +19,10 @@ The structure of `lib/` is as follows:
 - `presentation/` - the presentation components, eg widgets that render state data, typically provided by a container widget
 - `redux/` - the Redux constructs, eg actions and reducers
 
+## Icon
+
+The [app icon](assets/icon/icon.png) was created using [this image](https://commons.wikimedia.org/wiki/File:Simple_sine_wave.svg) by Omegatron [with modifications](assets/icon/sine.svg) and [Roman Nurik's](https://github.com/romannurik) [Android Asset Studio](https://romannurik.github.io/AndroidAssetStudio/index.html).
+
 ## Roadmap
 
 ### v0
@@ -39,19 +43,21 @@ The structure of `lib/` is as follows:
 - [x] list cards: enable +1 on long press (create new action?)
 - [x] polish details ui: add icons, allow +/- cur/max
 - [x] polish edit ui: add icons, match details page
-- [ ] routing
-- [ ] custom page transition
-- [ ] dark theme
-- [ ] container and presentation widget naming convention
+- [x] app icon, splash
+- [x] container and presentation widget naming convention
 - [ ] readme, comments
 
 ### later
 
+- [ ] delete hack (pop before load?)
+- [ ] themeing
+  - [ ] dark theme
+  - [ ] theme color/default tracker color selection
 - [ ] replace fabs?
-- [ ] bug: color is not set on selected fields: set theme color upon entering tracker?
-- [ ] setting page: theme color selection, dark theme, etc
-- [ ] try `async_redux`? https://pub.dev/packages/async_redux
-- [ ] calendar view
-- [ ] timezone selection
-- [ ] reordering trackers
+- [ ] custom page transition
+- [ ] [bug] color is not set on selected fields: set theme color upon entering tracker?
 - [ ] local notifications: https://pub.dev/packages/flutter_local_notifications
+- [ ] calendar view
+- [ ] period timezone selection
+- [ ] reordering trackers
+- [ ] try `async_redux`? https://pub.dev/packages/async_redux

@@ -39,6 +39,17 @@ class ListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Sine: $cur / $max (${max - cur})'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.info),
+            onPressed: () => showAboutDialog(
+              context: context,
+              applicationIcon: Icon(Icons.info, size: 42),
+              applicationVersion: '0.0.1',
+              children: <Widget>[const Text('')],
+            ),
+          )
+        ],
       ),
       body: ListView(
         children: <Widget>[
@@ -47,6 +58,7 @@ class ListPage extends StatelessWidget {
               tracker: t,
               onLongPress: () => editCurrentCallback(t.id, t.current + 1),
             ),
+          const SizedBox(height: 80), // to fully expose notes under fab
         ],
       ),
       floatingActionButton: FloatingActionButton(
