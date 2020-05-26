@@ -14,7 +14,7 @@ For auto-incrementing content, the maximum episode count is calculated based on 
 
 ## Installation
 
-Download the APK file from the [latest release](https://github.com/usashiki/Eventersearch/releases/latest).
+Download the APK file from the [latest release](https://github.com/usashiki/sine/releases/latest).
 Alternatively, clone the repo and build the APK with `flutter build apk`.
 
 ### Data import/export
