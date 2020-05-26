@@ -9,8 +9,9 @@ Sine is an episode tracking app for Android, designed for keeping track of your 
 | <img src="images/list.png" width="300px" /> | <img src="images/info.png" width="300px" /> | <img src="images/edit.png" width="300px" /> |
 
 In Sine, you create trackers to track your progress on some episodic content.
-Trackers have both current and maximum number of episodes.
+Progress on a trackers is represented by a current and maximum number of episodes.
 For auto-incrementing content, the maximum episode count is calculated based on the period (defined by a start date and frequency of updates) plus an offset.
+In addition to current and max, trackers can also have custom colors and notes.
 
 ## Installation
 
@@ -19,7 +20,7 @@ Alternatively, clone the repo and build the APK with `flutter build apk`.
 
 ### Data import/export
 
-App data is stored in the app's external storage directory, typically located at `/sdcard/Android/data/com.usashiki.sine/files/state.json`.
+App data is stored in the app's external storage directory, typically `/sdcard/Android/data/com.usashiki.sine/files/state.json`.
 To export, copy `state.json`, and to import, replace `state.json`.
 
 ## Development
@@ -30,11 +31,12 @@ To install Dart/Flutter, follow Flutter's [official documentation](https://flutt
 ### Architecture
 
 Sine uses [`flutter_redux`](https://pub.dev/packages/flutter_redux) for state management with [`redux_persist`](https://pub.dev/packages/redux_persist) for persistence.
+The state is stored in `AppState`, which is serialized to JSON and persisted on disk.
 
 The directory structure of `lib/` is as follows:
 
 - `containers/` - the container components, eg widgets that subscribe to state provided by Redux and typically wrap a presentation widget which presents state data (unrelated to [`Container`](https://api.flutter.dev/flutter/widgets/Container-class.html))
-- `models/` - the underlying data models, all of which should be JSON-serializable
+- `models/` - the underlying data models, all of which are JSON-serializable
 - `presentation/` - the presentation components, eg widgets that render state data, typically provided by a container widget
 - `redux/` - the Redux constructs, eg actions and reducers
 
@@ -46,40 +48,16 @@ This repo is set up to create new versioned releases with a built APK using GitH
 To create a new versioned release, do the following:
 
 - [ ] Increment the `version` field in `pubspec.yaml`, eg `0.0.1`
-- [ ] Create a new entry in the changelog [below](#changelog), and update this readme as required
+- [ ] Create a new entry in the [changelog](CHANGELOG.md), and also update this readme if necessary
 - [ ] Commit and push your changes
 - [ ] Tag the commit, eg `git tag v0.0.1` (the `v` is required)
 - [ ] Push the tag: `git push origin v0.0.1`
 
 (For reference: `git tag -d v0.0.1` to delete tag locally, `git push --delete origin v0.0.1` to delete tag on remote.)
 
-### Icon
+### Logo
 
-The [app icon](assets/icon/icon.png) was created using [this image](https://commons.wikimedia.org/wiki/File:Simple_sine_wave.svg) by Omegatron [with modifications](assets/icon/sine.svg) and [Roman Nurik's](https://github.com/romannurik) [Android Asset Studio](https://romannurik.github.io/AndroidAssetStudio/index.html).
-
-## Changelog
-
-### v0.0.1 (2020-05-25)
-
-Initial release.
-
-## Roadmap
-
-- [ ] formal data export/import
-- [ ] themeing
-  - [ ] dark theme
-  - [ ] theme color/default tracker color selection
-- [ ] delete hack (pop before load?)
-- [ ] tracker/period limit (eg stops auto-incrementing after date/number of eps)
-- [ ] custom page transition
-- [ ] replace fabs?
-- [ ] [bug] color is not set on selected fields: set theme color upon entering tracker?
-- [ ] local notifications: https://pub.dev/packages/flutter_local_notifications
-- [ ] timezone selection on period
-- [ ] reordering trackers/custom sorting
-- [ ] calendar view
-- [ ] try `async_redux`? https://pub.dev/packages/async_redux
-- [ ] ios support
+The [app icon](assets/icon/icon.png) and splash screen were created using [this image](https://commons.wikimedia.org/wiki/File:Simple_sine_wave.svg) by Omegatron [with modifications](assets/icon/sine.svg) and [Roman Nurik's](https://github.com/romannurik) [Android Asset Studio](https://romannurik.github.io/AndroidAssetStudio/index.html).
 
 ## Meta
 
