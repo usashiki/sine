@@ -43,8 +43,9 @@ class ListPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Sine: $cur / $max (${max - cur})'),
         actions: <Widget>[
+          // TODO: make this a dropdown with options for Import, Export, and About
           IconButton(
-            icon: Icon(Icons.info),
+            icon: const Icon(Icons.info),
             tooltip: 'App Info',
             onPressed: () async => showAboutDialog(
               context: context,
@@ -81,7 +82,7 @@ class ListPage extends StatelessWidget {
           MaterialPageRoute(builder: (_) => const TrackerAdd()),
         ),
         tooltip: 'Add Tracker',
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

@@ -81,18 +81,18 @@ class _AddEditPageState extends State<AddEditPage> {
         child: ListView(
           children: <Widget>[
             ListTile(
-              leading: Icon(Icons.title),
+              leading: const Icon(Icons.title),
               title: FormBuilderTextField(
                 attribute: 'title',
                 decoration: const InputDecoration(labelText: 'Title'),
                 initialValue: widget.tracker?.title,
                 autofocus: !widget.isEdit,
-                autovalidate: true,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 validators: [FormBuilderValidators.required()],
               ),
             ),
             ListTile(
-              leading: Icon(Icons.palette),
+              leading: const Icon(Icons.palette),
               title: FormBuilderColorPicker(
                 attribute: 'color',
                 decoration: const InputDecoration(
@@ -102,12 +102,12 @@ class _AddEditPageState extends State<AddEditPage> {
                 initialValue: color,
                 onChanged: (dynamic c) => setState(() => color = c as Color),
                 colorPickerType: ColorPickerType.BlockPicker,
-                autovalidate: true,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 validators: [FormBuilderValidators.required()],
               ),
             ),
             ListTile(
-              leading: Icon(MdiIcons.abTesting),
+              leading: const Icon(MdiIcons.abTesting),
               title: Column(
                 children: <Widget>[
                   FormBuilderTextField(
@@ -118,7 +118,7 @@ class _AddEditPageState extends State<AddEditPage> {
                     ),
                     initialValue: '${widget.tracker?.current ?? '0'}',
                     keyboardType: TextInputType.number,
-                    autovalidate: true,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     validators: [_integerValidator(min: 0)],
                   ),
                   FormBuilderTextField(
@@ -134,14 +134,14 @@ class _AddEditPageState extends State<AddEditPage> {
                     keyboardType: TextInputType.number,
                     onChanged: (dynamic d) =>
                         setState(() => tempOffset = _parseIntStr(d) ?? 0),
-                    autovalidate: true,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     validators: [_integerValidator()],
                   ),
                 ],
               ),
             ),
             ListTile(
-              leading: Icon(MdiIcons.reload),
+              leading: const Icon(MdiIcons.reload),
               title: Column(
                 children: <Widget>[
                   FormBuilderSwitch(
@@ -196,7 +196,7 @@ class _AddEditPageState extends State<AddEditPage> {
                           }
                         });
                       },
-                      autovalidate: true,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       validators: [_integerValidator(min: 1)],
                     ),
                   ),
@@ -212,7 +212,7 @@ class _AddEditPageState extends State<AddEditPage> {
                       readOnly: !withPeriod,
                       onChanged: (dynamic val) =>
                           setState(() => tempStart = val as DateTime),
-                      autovalidate: true,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       validators: [FormBuilderValidators.required()],
                     ),
                   ),
@@ -220,7 +220,7 @@ class _AddEditPageState extends State<AddEditPage> {
               ),
             ),
             ListTile(
-              leading: Icon(MdiIcons.text),
+              leading: const Icon(MdiIcons.text),
               title: FormBuilderTextField(
                 attribute: 'notes',
                 decoration: const InputDecoration(labelText: 'Notes'),
@@ -256,7 +256,7 @@ class _AddEditPageState extends State<AddEditPage> {
           }
         },
         tooltip: 'Save Tracker',
-        child: Icon(Icons.save),
+        child: const Icon(Icons.save),
       ),
     );
   }

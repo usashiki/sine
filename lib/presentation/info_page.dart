@@ -28,7 +28,7 @@ class InfoPage extends StatelessWidget {
         backgroundColor: tracker.color,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.delete),
+            icon: const Icon(Icons.delete),
             tooltip: 'Delete Tracker',
             onPressed: () {
               deleteCallback();
@@ -40,7 +40,7 @@ class InfoPage extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           ListTile(
-            leading: Icon(MdiIcons.abTesting),
+            leading: const Icon(MdiIcons.abTesting),
             title: Column(
               children: <Widget>[
                 _EpisodeCounter(
@@ -73,7 +73,7 @@ class InfoPage extends StatelessWidget {
           MaterialPageRoute(builder: (_) => TrackerEdit(tracker)),
         ),
         tooltip: 'Edit Tracker',
-        child: Icon(Icons.edit),
+        child: const Icon(Icons.edit),
       ),
     );
   }
@@ -87,7 +87,7 @@ class _PeriodTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(MdiIcons.reload),
+      leading: const Icon(MdiIcons.reload),
       title: Text('New episode every ${period.days} days'),
       subtitle:
           Text('Previous: ${period.previousStr}\nNext: ${period.nextStr}'),
@@ -104,7 +104,7 @@ class _NotesTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(MdiIcons.text),
+      leading: const Icon(MdiIcons.text),
       title: Linkify(
         onOpen: (link) => launch(link.url),
         linkStyle: TextStyle(
