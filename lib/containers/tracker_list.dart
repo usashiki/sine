@@ -16,6 +16,7 @@ class TrackerList extends StatelessWidget {
       builder: (_, vm) => ListPage(
         trackers: vm.trackers,
         editCurrentCallback: vm.editCurrentCallback,
+        importTrackersCallback: vm.importTrackersCallback,
       ),
     );
   }
@@ -24,16 +25,21 @@ class TrackerList extends StatelessWidget {
 class _ViewModel {
   final List<Tracker> trackers;
   final Function(String, int) editCurrentCallback;
+  final Function(List<Tracker>) importTrackersCallback;
 
   _ViewModel({
     @required this.trackers,
     @required this.editCurrentCallback,
+    @required this.importTrackersCallback,
   });
 
   static _ViewModel fromStore(Store<AppState> store) => _ViewModel(
         trackers: store.state.trackers,
         editCurrentCallback: (String id, int newCurrent) {
           store.dispatch(EditTrackerCurrentAction(id, newCurrent));
+        },
+        importTrackersCallback: (List<Tracker> newTrackers) {
+          store.dispatch(ImportTrackersAction(newTrackers));
         },
       );
 }

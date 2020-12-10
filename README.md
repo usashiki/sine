@@ -20,8 +20,8 @@ Alternatively, clone the repo and build the APK with `flutter build apk`.
 
 ### Data import/export
 
-App data is stored in the app's external storage directory, typically `/sdcard/Android/data/com.usashiki.sine/files/state.json`.
-To export, copy `state.json`, and to import, replace `state.json`.
+App data is stored in the app's external storage directory, typically `/sdcard/Android/data/com.usashiki.sine/files/state.json` (this may not be accessible on devices running Android 11 or above).
+Data import and export can be performed via the three dot menu on the list page.
 
 ## Development
 

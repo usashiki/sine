@@ -48,11 +48,20 @@ class EditTrackerOffsetAction {
   String toString() => 'IncrementTrackerOffsetAction($id, $newOffset)';
 }
 
+class ImportTrackersAction {
+  final List<Tracker> newTrackers;
+
+  const ImportTrackersAction(this.newTrackers);
+
+  @override
+  String toString() => 'ImportTrackersAction($newTrackers)';
+}
+
 class EditSettingsAction {
   final AppSettings newSettings;
 
   const EditSettingsAction(this.newSettings);
 
   @override
-  String toString() => 'EditSettingsAction{$newSettings}';
+  String toString() => 'EditSettingsAction($newSettings)';
 }

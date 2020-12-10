@@ -15,6 +15,7 @@ final _trackersReducer = combineReducers<List<Tracker>>([
   TypedReducer<List<Tracker>, DeleteTrackerAction>(_deleteTracker),
   TypedReducer<List<Tracker>, EditTrackerCurrentAction>(_editTrackerCurrent),
   TypedReducer<List<Tracker>, EditTrackerOffsetAction>(_editTrackerOffset),
+  TypedReducer<List<Tracker>, ImportTrackersAction>(_importTrackers),
 ]);
 
 final _settingsReducer = combineReducers<AppSettings>([
@@ -49,6 +50,10 @@ List<Tracker> _editTrackerOffset(
             ? tracker.copyWith(offset: action.newOffset)
             : tracker)
         .toList();
+
+List<Tracker> _importTrackers(
+        List<Tracker> trackers, ImportTrackersAction action) =>
+    List.from(trackers)..addAll(action.newTrackers);
 
 AppSettings _editSettings(AppSettings settings, EditSettingsAction action) =>
     action.newSettings;

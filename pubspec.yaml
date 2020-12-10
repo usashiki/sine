@@ -23,13 +23,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_form_builder: ^3.9.0 # TODO: 4.0.2
+  file_picker: ^2.1.0
+  flutter_form_builder: ^4.0.2
   flutter_linkify: ^4.0.2
   flutter_redux: ^0.7.0
   json_serializable: ^3.5.1
   material_design_icons_flutter: 4.0.5755 # fixed version b/c not semver
   package_info: ^0.4.3 # TODO: something more complicated here
   path_provider: ^1.6.24
+  permission_handler: ^5.0.1
   redux_persist: ^0.8.4
   supercharged: ^1.12.0
   uuid: ^2.2.2

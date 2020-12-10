@@ -83,18 +83,18 @@ class _AddEditPageState extends State<AddEditPage> {
             ListTile(
               leading: const Icon(Icons.title),
               title: FormBuilderTextField(
-                attribute: 'title',
+                name: 'title',
                 decoration: const InputDecoration(labelText: 'Title'),
                 initialValue: widget.tracker?.title,
                 autofocus: !widget.isEdit,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                validators: [FormBuilderValidators.required()],
+                validator: FormBuilderValidators.required(context),
               ),
             ),
             ListTile(
               leading: const Icon(Icons.palette),
-              title: FormBuilderColorPicker(
-                attribute: 'color',
+              title: FormBuilderColorPickerField(
+                name: 'color',
                 decoration: const InputDecoration(
                   labelText: 'Color',
                   border: InputBorder.none,
@@ -103,7 +103,7 @@ class _AddEditPageState extends State<AddEditPage> {
                 onChanged: (dynamic c) => setState(() => color = c as Color),
                 colorPickerType: ColorPickerType.BlockPicker,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                validators: [FormBuilderValidators.required()],
+                validator: FormBuilderValidators.required(context),
               ),
             ),
             ListTile(
@@ -111,7 +111,7 @@ class _AddEditPageState extends State<AddEditPage> {
               title: Column(
                 children: <Widget>[
                   FormBuilderTextField(
-                    attribute: 'current',
+                    name: 'current',
                     decoration: const InputDecoration(
                       labelText: 'Current',
                       suffixText: 'episodes',
@@ -119,10 +119,10 @@ class _AddEditPageState extends State<AddEditPage> {
                     initialValue: '${widget.tracker?.current ?? '0'}',
                     keyboardType: TextInputType.number,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validators: [_integerValidator(min: 0)],
+                    validator: _integerValidator(min: 0),
                   ),
                   FormBuilderTextField(
-                    attribute: 'offset',
+                    name: 'offset',
                     decoration: InputDecoration(
                       labelText: tempPeriod == null ? 'Max' : 'Offset',
                       suffixText: 'episodes',
@@ -135,7 +135,7 @@ class _AddEditPageState extends State<AddEditPage> {
                     onChanged: (dynamic d) =>
                         setState(() => tempOffset = _parseIntStr(d) ?? 0),
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validators: [_integerValidator()],
+                    validator: _integerValidator(),
                   ),
                 ],
               ),
@@ -145,12 +145,12 @@ class _AddEditPageState extends State<AddEditPage> {
               title: Column(
                 children: <Widget>[
                   FormBuilderSwitch(
-                    attribute: 'period',
+                    name: 'period',
                     decoration: const InputDecoration(
                       border: InputBorder.none,
                     ),
                     initialValue: withPeriod,
-                    label: Text.rich(
+                    title: Text.rich(
                       TextSpan(
                         children: <TextSpan>[
                           TextSpan(
@@ -178,7 +178,7 @@ class _AddEditPageState extends State<AddEditPage> {
                     visible: withPeriod,
                     maintainState: true,
                     child: FormBuilderTextField(
-                      attribute: 'days',
+                      name: 'days',
                       decoration: const InputDecoration(
                         prefixText: 'Every  ',
                         suffixText: 'days',
@@ -197,23 +197,23 @@ class _AddEditPageState extends State<AddEditPage> {
                         });
                       },
                       autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validators: [_integerValidator(min: 1)],
+                      validator: _integerValidator(min: 1),
                     ),
                   ),
                   Visibility(
                     visible: withPeriod,
                     maintainState: true,
                     child: FormBuilderDateTimePicker(
-                      attribute: 'start',
+                      name: 'start',
                       decoration:
                           const InputDecoration(labelText: 'Starting on'),
                       initialValue: tempStart,
                       format: Period.longFormat,
-                      readOnly: !withPeriod,
+                      enabled: withPeriod,
                       onChanged: (dynamic val) =>
                           setState(() => tempStart = val as DateTime),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validators: [FormBuilderValidators.required()],
+                      validator: FormBuilderValidators.required(context),
                     ),
                   ),
                 ],
@@ -222,7 +222,7 @@ class _AddEditPageState extends State<AddEditPage> {
             ListTile(
               leading: const Icon(MdiIcons.text),
               title: FormBuilderTextField(
-                attribute: 'notes',
+                name: 'notes',
                 decoration: const InputDecoration(labelText: 'Notes'),
                 initialValue: widget.tracker?.notes,
               ),
