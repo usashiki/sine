@@ -21,7 +21,9 @@
 - [ ] [feature] formal data export/import
   - [x] import: works
   - [ ] export: it worked initially but not anymore? it's something with the permissions but can't figure it out
-  - blocked on build issues related to [`file_picker`](https://github.com/miguelpruivo/flutter_file_picker) and androidx, specifically the [`DefaultLifecycleObserver` issue described in the wiki](https://github.com/miguelpruivo/flutter_file_picker/wiki/Troubleshooting#-issue-5) as well as many issues - nothing seemed to work
+    - for now just using api 29 with `requestLegacyExternalStorage` but not a long-term solution
+  - [ ] cannot build release apk due to issues with [`file_picker`](https://github.com/miguelpruivo/flutter_file_picker) and androidx, specifically the [`DefaultLifecycleObserver` issue described in the wiki](https://github.com/miguelpruivo/flutter_file_picker/wiki/Troubleshooting#-issue-5) as well as many issues - nothing seemed to work
     - https://github.com/miguelpruivo/flutter_file_picker/issues?q=DefaultLifecycleObserver
     - https://android-developers.googleblog.com/2020/07/preparing-your-build-for-package-visibility-in-android-11.html
     - https://developer.android.com/studio/releases/gradle-plugin#updating-gradle
+    - for now just using the debug build
